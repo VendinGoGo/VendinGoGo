@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!-- 
+____   ____                 .___.__         ________         ________        
+\   \ /   /____   ____    __| _/|__| ____  /  _____/  ____  /  _____/  ____  
+ \   Y   // __ \ /    \  / __ | |  |/    \/   \  ___ /  _ \/   \  ___ /  _ \ 
+  \     /\  ___/|   |  \/ /_/ | |  |   |  \    \_\  (  <_> )    \_\  (  <_> )
+   \___/  \___  >___|  /\____ | |__|___|  /\______  /\____/ \______  /\____/ 
+              \/     \/      \/         \/        \/               \/     
+By Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
+-->
+
+<html style="height:100%">
+
+    <head>
+        <title>VendinGoGo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!--Load Style Sheets-->
+        <link href="js/libs/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="js/libs/twitter-bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+
+        <script src="js/libs/knockout/knockout-3.4.0.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKdjL4G5gfdxhuqxVQTzVNmIUL7bE5-tE&callback=initMap" async defer></script>
+        <script src='js/libs/markerclusterer_compiled.js'></script>
+        
+        <style>
+            #map{
+                width:100%; 
+                height:100%; 
+                min-height: 110px;
+                position: relative;
+            }
+        </style>
+
+    </head>
+
+    <body style="height:100%">
+
+        <nav class="navbar navbar-inverse navbar-fixed-top"></nav>
+
+        <div class="container-fluid" style="height:100%">
+
+            <div class="row" style="height:100%">
+
+                <div class="col-md-3" id="sidebar" style='height:100%; max-height: 100%;overflow:auto;' >
+
+                    <br/><br/><br/>
+                    
+                    <div data-bind="if: shouldShowMainView">
+                        <div class="panel panel-default panel-success">
+                            
+                            <div class="panel-body">
+                                <div data-bind="with: mainVendingMachine">
+                                    
+                                    <div class="progress" style="width:100%">
+                                        
+                                        <div class="progress-bar progress-bar-success" data-bind="style:{ width: (ups/(ups+downs))*100+'%'}" ></div>
+                                        <div class="progress-bar progress-bar-danger" data-bind="style:{ width: (downs/(ups+downs))*100+'%'}" ></div>
+                                        
+                                    </div>
+                                    
+                                    <h4>How To Find:</h4>
+                                    <p data-bind="text: $parent.getHowToFind"></p>
+                                    
+                                    <div data-bind="foreach: updates">
+                                        <div class="alert alert-info" role="alert" data-bind="text: raw" style="padding:8px;margin-bottom: 10px"></div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div data-bind="if: !shouldShowMainView() && smallLocationsLoaded().length === 0">
+                        <center><h1>No Vending Locations Near You :(</h1></center>
+                    </div>
+                    
+                    <div data-bind='foreach: smallLocationsLoaded'>
+                            <center>
+                                <button style='width:95%;margin-bottom: 10px;' type="button" class="btn btn-info" data-bind="click:$parent.viewSmallLocation">View</button>
+                            </center>
+                    </div>
+
+                </div>
+
+                <div class="col-md-9" style="padding-left: 0px;padding-right: 0px; height: 100%">
+                    <div id="map"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <script src="js/maps.js"></script>
+
+    </body>
+
+</html>
