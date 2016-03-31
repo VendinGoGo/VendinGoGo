@@ -45,6 +45,37 @@ function SidebarViewModel(){
     
     
     /**
+     * Computed array to determine which locations should ve displayed 
+     * based on the main view and potentially other rules
+     */
+    self.getSmallLocationsToView = ko.computed(function(){
+        
+        if(self.mainVendingMachine() === null || self.mainVendingMachine() === undefined){
+            return self.smallLocationsLoaded();
+        }
+        
+        var toView = [];
+        
+        for(var i = 0; i < self.smallLocationsLoaded().length; i ++){
+            if(self.smallLocationsLoaded()[i].id !== self.mainVendingMachine().id){
+                toView.push(self.smallLocationsLoaded()[i]);
+            }
+        }
+        
+        return toView;
+        
+    }, this);
+    
+    
+    self.animateSmallLocation = function(loc){
+        makeMarkerBounce(loc.id);
+    };
+    
+    self.stopSmallLocationAnimation = function(loc){
+        clearMarkerAnimation(loc.id);
+    };
+    
+    /**
      * Adds a location to be viewed compressed on the sidebar
      * 
      * @param {VendingLocationJSON} loc
@@ -73,6 +104,13 @@ function SidebarViewModel(){
         
         getVendingMachineInfo(loc.id, function(){}, function(data){
             self.setMainVendingMachineView(data);
+            clearMarkerAnimation(loc.id);
+            console.log(loc);
+            map.panTo( {
+                "lat": loc.lat,
+                "lng": loc.lon
+            });
+
         });
         
     };
@@ -197,6 +235,31 @@ function displayVedingLocations(){
 }
 
 
+function makeMarkerBounce(markerId){
+    
+    for(var i = 0; i < markerCluster.getMarkers().length; i ++){
+        
+        if(markerCluster.getMarkers()[i].vendingId === markerId){
+            markerCluster.getMarkers()[i].setAnimation(google.maps.Animation.BOUNCE);
+        }
+        
+    }
+    
+}
+
+function clearMarkerAnimation(markerId){
+    
+    for(var i = 0; i < markerCluster.getMarkers().length; i ++){
+        
+        if(markerCluster.getMarkers()[i].vendingId === markerId){
+            markerCluster.getMarkers()[i].setAnimation(null);
+        }
+        
+    }
+    
+}
+
+
 /**
  * Adds a vending location to the map to be displayed as well as on the sidebar
  * if appropriate
@@ -281,6 +344,7 @@ function addLocationToMap(locData){
     return marker;
 
 }
+
 
 function getVendingMachineInfo(id, errorCallBack, successCallBack){
     
@@ -415,6 +479,7 @@ function getVendingMachineInfo(id, errorCallBack, successCallBack){
     
 }
 
+
 function getVendingLocations(){
     
     return [
@@ -459,6 +524,7 @@ function getVendingLocations(){
     
 }
 
+
 function getMapStyle(){
     
     var customMapType = new google.maps.StyledMapType([
@@ -486,6 +552,16 @@ function getMapStyle(){
     
 }
 
+
+/**
+ * Creates an asynchronus http request for loading contents onto the page
+ * to make it more dynamic.
+ * 
+ * @param {string} url Location to hit to pull information from
+ * @param {function} errcb Function called when the request fails
+ * @param {function} succb Function called when the request suceeds with the data recieved
+ * @returns {undefined}
+ */
 function makeHttpRequest(url, errcb, succb){
 
     var xmlhttp = new XMLHttpRequest();

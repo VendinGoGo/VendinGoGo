@@ -6,7 +6,7 @@ ____   ____                 .___.__         ________         ________
   \     /\  ___/|   |  \/ /_/ | |  |   |  \    \_\  (  <_> )    \_\  (  <_> )
    \___/  \___  >___|  /\____ | |__|___|  /\______  /\____/ \______  /\____/ 
               \/     \/      \/         \/        \/               \/     
-By Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
+By: Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
 -->
 
 <html style="height:100%">
@@ -21,11 +21,10 @@ By Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
         <link href="js/libs/twitter-bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
 
         <script src="js/libs/knockout/knockout-3.4.0.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKdjL4G5gfdxhuqxVQTzVNmIUL7bE5-tE&callback=initMap" async defer></script>
         <script src='js/libs/markerclusterer_compiled.js'></script>
         
         <style>
-            #map{
+            #map {
                 width:100%; 
                 height:100%; 
                 min-height: 110px;
@@ -73,16 +72,23 @@ By Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
 
                     </div>
 
-                    <div data-bind="if: !shouldShowMainView() && smallLocationsLoaded().length === 0">
+                    <div data-bind="if: !shouldShowMainView() && getSmallLocationsToView().length === 0">
                         <center><h1>No Vending Locations Near You :(</h1></center>
                     </div>
                     
-                    <div data-bind='foreach: smallLocationsLoaded'>
-                            <center>
-                                <button style='width:95%;margin-bottom: 10px;' type="button" class="btn btn-info" data-bind="click:$parent.viewSmallLocation">View</button>
+                    <div class='row'>
+                        
+                        <div data-bind='foreach: getSmallLocationsToView'>
+                            <center class='col-md-4 col-lg-3 col-sm-6 col-xs-6' style='padding-left: 5px;padding-right: 5px;'>
+                                <button style='width:100%;margin-bottom: 10px;' type="button" class="btn btn-info"  
+                                        data-bind="click:$parent.viewSmallLocation, event: {mouseover: $parent.animateSmallLocation, mouseout: $parent.stopSmallLocationAnimation}">
+                                    View
+                                </button>
                             </center>
-                    </div>
+                        </div>
 
+                    </div>
+                        
                 </div>
 
                 <div class="col-md-9" style="padding-left: 0px;padding-right: 0px; height: 100%">
@@ -93,7 +99,11 @@ By Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
 
         </div>
 
-        <script src="js/maps.js"></script>
+        <!--At end of page so that is can databind all elements after they have loaded-->
+        <script src="js/src/maps.js"></script>
+        
+        <!--Make sure this  is loaded after map is so it doesn't try calling init before init is loaded onto the page-->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKdjL4G5gfdxhuqxVQTzVNmIUL7bE5-tE&callback=initMap" async defer></script>
 
     </body>
 
