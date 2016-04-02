@@ -23,6 +23,49 @@ function SidebarViewModel(){
     
     
     /**
+     * The current view we're currentely displaying in our sidebar.
+     * Currentely the two views available are "machine" and "creation"
+     */
+    self.mainView = ko.observable("machine");
+    
+    
+    /**
+     * Computed boolean that determines whether or not we should be showing
+     * DOM elements relating to browswing through vending machines
+     */
+    self.shouldShowVendingMachineView = ko.computed(function(){
+        return self.mainView() === "machine";
+    }, this);
+    
+    
+    /**
+     * Computed boolean that determines whether or not we should be showing
+     * DOM elements relating to creating a new vending location
+     */
+    self.shouldShowVendingCreationView = ko.computed(function(){
+        return self.mainView() === "creation";
+    }, this);
+    
+    
+    /**
+     * Changes the type of view we're working with to the creation of a
+     * vending machine
+     * 
+     * @returns {undefined}
+     */
+    self.switchToVendingCreationView = function () {
+        self.mainView("creation");
+        self.clearCreateLocationMarker();
+    };
+
+
+    self.switchToVendingMachineView = function () {
+        self.mainView("machine");
+       self.clearCreateLocationMarker();
+    };
+    
+    
+    /**
      * The main vending machine to be displayed with all it's 
      * details and updates
      */
@@ -67,13 +110,29 @@ function SidebarViewModel(){
     }, this);
     
     
+    /**
+     * Makes a marker that was passed in bounce up
+     * and down on the map
+     * 
+     * @param {type} loc
+     * @returns {undefined}
+     */
     self.animateSmallLocation = function(loc){
         makeMarkerBounce(loc.id);
     };
     
+    
+    /**
+     * Removes all animations that a marker passed in 
+     * might have
+     * 
+     * @param {type} loc
+     * @returns {undefined}
+     */
     self.stopSmallLocationAnimation = function(loc){
         clearMarkerAnimation(loc.id);
     };
+    
     
     /**
      * Adds a location to be viewed compressed on the sidebar
@@ -143,6 +202,80 @@ function SidebarViewModel(){
         self.mainVendingMachine(machine);
         
     };
+    
+    
+    
+    self.rightClickEvent = function(latLng){
+        
+        if(self.shouldShowVendingCreationView() === true){
+            self.setCreationMarkerLocation(latLng.lat(), latLng.lng());
+        }
+        
+    };
+    
+    self.creationMarker = ko.observable(null);
+    
+    self.creationNumMachines = ko.observable(1);
+    
+    self.creationHowToFind = ko.observable("");
+    
+    self.setCreationMarkerLocation = function(lat, lng){
+        
+        if(self.creationMarker() !== null){
+            self.creationMarker().setPosition({lat: lat, lng: lng});
+        } else {
+            var marker = new google.maps.Marker({
+                position: {
+                    lat: lat,
+                    lng: lng
+                },
+                map: map,
+                title: 'Click to zoom',
+                icon: {
+                    "url": 'img/VendinGoGoicon.svg',
+                    "scaledSize": new google.maps.Size(80, 80)
+                },
+            });
+
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+
+            self.creationMarker(marker);
+        }
+        
+    };
+    
+    
+    /**
+     * 
+     * @returns {undefined}
+     */
+    self.createMachineLocation = function(){
+        
+        if(self.creationMarker() === null){
+            return;
+        }
+        
+        var loc = self.creationMarker().getPosition();
+        
+        var url = "api/addVendingMachine.php?lat="+(Math.round(loc.lat() * 10000) / 10000)+"&lng="+(Math.round(loc.lng() * 10000) / 10000)+"&m="+self.creationNumMachines()+"&w="+self.creationHowToFind();
+        makeHttpRequest(url, 
+        function(){
+            alert("Something went wrong trying to create the vending machine!");
+        }, function(data){
+            
+            self.switchToVendingMachineView();
+            self.clearCreateLocationMarker();
+
+        });
+        
+    };
+    
+    self.clearCreateLocationMarker = function(){
+        if(self.creationMarker() !== null){
+            self.creationMarker().setMap(null);
+        }
+        self.creationMarker(null);
+    };
 
 }
 
@@ -183,6 +316,10 @@ function initMap() {
         zoom: 12
     });
 
+
+    map.addListener('rightclick', function(data) {
+        viewModel.rightClickEvent(data.latLng);
+    });
 
     // Set the style of the map
     var style = getMapStyle();
@@ -568,6 +705,7 @@ function makeHttpRequest(url, errcb, succb){
     
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+            //console.log(xmlhttp.responseText);
             var postData = JSON.parse(xmlhttp.responseText);
             succb(postData);
         } else {
@@ -589,3 +727,4 @@ function makeHttpRequest(url, errcb, succb){
     xmlhttp.send();
 
 }
+

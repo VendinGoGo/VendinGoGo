@@ -18,14 +18,28 @@ By: Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
 
         <!--Load Style Sheets-->
         <link href="js/libs/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="js/libs/twitter-bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
         <link href="style/index.css" rel="stylesheet">
         
     </head>
 
     <body style="height:100%">
 
-        <nav class="navbar navbar-inverse navbar-fixed-top"></nav>
+
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">EliCDavis <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="">Log Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
 
         <div class="container-fluid" style="height:100%">
 
@@ -34,50 +48,79 @@ By: Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
                 <div class="col-md-3" id="sidebar" style='height:100%; max-height: 100%;overflow:auto;' >
 
                     <br/><br/><br/>
-                    
-                    <div data-bind="if: shouldShowMainView">
-                        <div class="panel panel-default panel-success">
-                            
-                            <div class="panel-body">
-                                <div data-bind="with: mainVendingMachine">
-                                    
-                                    <div class="progress" style="width:100%">
-                                        
-                                        <div class="progress-bar progress-bar-success" data-bind="style:{ width: (ups/(ups+downs))*100+'%'}" ></div>
-                                        <div class="progress-bar progress-bar-danger" data-bind="style:{ width: (downs/(ups+downs))*100+'%'}" ></div>
-                                        
+
+                    <div data-bind="if: shouldShowVendingMachineView">
+
+                        <div data-bind="if: shouldShowMainView">
+                            <div class="panel panel-default panel-success">
+
+                                <div class="panel-body">
+                                    <div data-bind="with: mainVendingMachine">
+
+                                        <div class="progress" style="width:100%">
+
+                                            <div class="progress-bar progress-bar-success" data-bind="style:{ width: (ups/(ups+downs))*100+'%'}" ></div>
+                                            <div class="progress-bar progress-bar-danger" data-bind="style:{ width: (downs/(ups+downs))*100+'%'}" ></div>
+
+                                        </div>
+
+                                        <h4>How To Find:</h4>
+                                        <p data-bind="text: $parent.getHowToFind"></p>
+
+                                        <div data-bind="foreach: updates">
+                                            <div class="alert alert-info" role="alert" data-bind="text: raw" style="padding:8px;margin-bottom: 10px"></div>
+                                        </div>
+
                                     </div>
-                                    
-                                    <h4>How To Find:</h4>
-                                    <p data-bind="text: $parent.getHowToFind"></p>
-                                    
-                                    <div data-bind="foreach: updates">
-                                        <div class="alert alert-info" role="alert" data-bind="text: raw" style="padding:8px;margin-bottom: 10px"></div>
-                                    </div>
-                                    
                                 </div>
                             </div>
+
                         </div>
 
-                    </div>
+                        <div data-bind="if: !shouldShowMainView() && getSmallLocationsToView().length === 0">
+                            <center><h1>No Vending Locations Near You :(</h1></center>
+                        </div>
 
-                    <div data-bind="if: !shouldShowMainView() && getSmallLocationsToView().length === 0">
-                        <center><h1>No Vending Locations Near You :(</h1></center>
+                        <div class='row'>
+
+                            <div data-bind='foreach: getSmallLocationsToView'>
+                                <center class='col-md-4 col-lg-3 col-sm-6 col-xs-6' style='padding-left: 5px;padding-right: 5px;'>
+                                    <button style='width:100%;margin-bottom: 10px;' type="button" class="btn btn-info"  
+                                            data-bind="click:$parent.viewSmallLocation, event: {mouseover: $parent.animateSmallLocation, mouseout: $parent.stopSmallLocationAnimation}">
+                                        View
+                                    </button>
+                                </center>
+                            </div>
+
+                        </div>
+
                     </div>
                     
-                    <div class='row'>
+                    
+                    <div data-bind="if: shouldShowVendingCreationView">
                         
-                        <div data-bind='foreach: getSmallLocationsToView'>
-                            <center class='col-md-4 col-lg-3 col-sm-6 col-xs-6' style='padding-left: 5px;padding-right: 5px;'>
-                                <button style='width:100%;margin-bottom: 10px;' type="button" class="btn btn-info"  
-                                        data-bind="click:$parent.viewSmallLocation, event: {mouseover: $parent.animateSmallLocation, mouseout: $parent.stopSmallLocationAnimation}">
-                                    View
-                                </button>
-                            </center>
+                        <div  data-bind="if: creationMarker() ===null">
+                            <div class="alert alert-danger" role="alert">
+                                Right click on the map to set a vending location!
+                            </div>
                         </div>
-
-                    </div>
                         
+                        <span class="form-inline">Number of Machines in location: <input data-bind="value: creationNumMachines" class="form-control" type="number" min="1" placeholder="2"></span>
+
+                        <br/><br/>
+                        
+                        <span>Describe How To Find The Machines:</span>
+                        <textarea data-bind="value:creationHowToFind" class="form-control" placeholder="To the left of the front entrance.."></textarea>
+                        
+                        <br/>
+                        
+                        <div  data-bind="if: creationMarker() !== null">
+                            <button type="button" data-bind="click: createMachineLocation" class="btn btn-success">Create Machine</button>
+                        </div>
+                        
+                    </div>
+                    
+                    
                 </div>
 
                 <div class="col-md-9" style="padding-left: 0px;padding-right: 0px; height: 100%">
@@ -91,6 +134,8 @@ By: Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
         <!--Libraries-->
         <script src="js/libs/knockout/knockout-3.4.0.js"></script>
         <script src='js/libs/markerclusterer_compiled.js'></script>
+        <script src="js/libs/jquery/jquery.min.js"></script>
+        <script src="js/libs/twitter-bootstrap/js/bootstrap.js"></script>
 
         <!--our code-->
         <script src="js/src/maps.js"></script>
