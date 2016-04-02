@@ -6,7 +6,7 @@ ____   ____                 .___.__         ________         ________
   \     /\  ___/|   |  \/ /_/ | |  |   |  \    \_\  (  <_> )    \_\  (  <_> )
    \___/  \___  >___|  /\____ | |__|___|  /\______  /\____/ \______  /\____/ 
               \/     \/      \/         \/        \/               \/     
-By: Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
+Brought to you by: Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
 -->
 
 <html style="height:100%">
@@ -57,19 +57,22 @@ By: Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
                                 <div class="panel-body">
                                     <div data-bind="with: mainVendingMachine">
 
-                                        <div class="progress" style="width:100%">
+<!--                                        <div class="progress" style="width:100%">
 
                                             <div class="progress-bar progress-bar-success" data-bind="style:{ width: (ups/(ups+downs))*100+'%'}" ></div>
                                             <div class="progress-bar progress-bar-danger" data-bind="style:{ width: (downs/(ups+downs))*100+'%'}" ></div>
 
-                                        </div>
+                                        </div>-->
 
                                         <h4>How To Find:</h4>
                                         <p data-bind="text: $parent.getHowToFind"></p>
 
-                                        <div data-bind="foreach: updates">
-                                            <div class="alert alert-info" role="alert" data-bind="text: raw" style="padding:8px;margin-bottom: 10px"></div>
-                                        </div>
+                                        <!--                                        <div data-bind="foreach: updates">
+                                                                                    <div class="alert alert-info" role="alert" data-bind="text: raw" style="padding:8px;margin-bottom: 10px"></div>
+                                                                                </div>-->
+
+
+                                        <span class="label label-success">Number of Machines: <span data-bind="html: numOfMachines"></span></span>
 
                                     </div>
                                 </div>

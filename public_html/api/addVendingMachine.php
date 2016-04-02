@@ -15,7 +15,6 @@ if (!$result) {
     die('{"result": "failure"}');
 } else {
     echo '{"result": "success"}';
-
 }
 
 $conn->close();

@@ -21,7 +21,6 @@ function getVendingInfo($conn, $id){
 
 
     /* fetch values */
-    $rows = array();
     while ($stmt->fetch()) {
         $row = array();
 
@@ -30,10 +29,9 @@ function getVendingInfo($conn, $id){
         $row['numOfMachines'] = utf8_encode($numOfMachines);
         $row['howToFind'] = utf8_encode($howToFind);
 
-        $rows[] = $row;
-    }
+        print json_encode($row);
 
-    print json_encode($rows);
+    }
 
     $stmt->close();
 }

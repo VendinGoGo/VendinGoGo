@@ -166,8 +166,8 @@ function SidebarViewModel(){
             clearMarkerAnimation(loc.id);
             console.log(loc);
             map.panTo( {
-                "lat": loc.lat,
-                "lng": loc.lon
+                "lat": parseFloat(loc.lat),
+                "lng": parseFloat(loc.lng)
             });
 
         });
@@ -182,7 +182,7 @@ function SidebarViewModel(){
      * If there's no info, it defaults to 'No Info :('
      */
     self.getHowToFind = ko.computed(function(){
-        return (self.shouldShowMainView()&& self.mainVendingMachine().Description !== null && self.mainVendingMachine().Description !== "") ? self.mainVendingMachine().Description : 'No Info :(';
+        return (self.shouldShowMainView() && self.mainVendingMachine().howToFind !== null && self.mainVendingMachine().howToFind !== "") ? self.mainVendingMachine().howToFind : 'No Info :(';
     }, this);
     
 
@@ -257,14 +257,26 @@ function SidebarViewModel(){
         
         var loc = self.creationMarker().getPosition();
         
-        var url = "api/addVendingMachine.php?lat="+(Math.round(loc.lat() * 10000) / 10000)+"&lng="+(Math.round(loc.lng() * 10000) / 10000)+"&m="+self.creationNumMachines()+"&w="+self.creationHowToFind();
+        //TRY NOT EVEN ROUNDINGs
+        var url = "api/addVendingMachine.php?lat="+loc.lat()+"&lng="+loc.lng()+"&m="+self.creationNumMachines()+"&w="+self.creationHowToFind();
+        console.log(url);
         makeHttpRequest(url, 
         function(){
             alert("Something went wrong trying to create the vending machine!");
         }, function(data){
             
-            self.switchToVendingMachineView();
-            self.clearCreateLocationMarker();
+            if(data.result === "success"){
+                
+                self.switchToVendingMachineView();
+                self.clearCreateLocationMarker();
+                
+            } else if( data.result === "failure"){
+               
+               alert("Failure creating the vending machine!");
+               
+            }
+            
+            
 
         });
         
@@ -355,20 +367,23 @@ function initMap() {
  * 
  * @returns {undefined}
  */
-function displayVedingLocations(){
+function displayVedingLocations() {
 
-    var locations = getVendingLocations();
+    getVendingLocations(function (locations) {
 
-    for(var i = 0; i < locations.length; i ++){
-        
-        marker = addLocationToMap(locations[i]);
-        
-        if(marker !== null && marker !== undefined){
-            markerCluster.addMarker(marker, true);
+        for (var i = 0; i < locations.length; i++) {
+
+            marker = addLocationToMap(locations[i]);
+
+            if (marker !== null && marker !== undefined) {
+                markerCluster.addMarker(marker, true);
+            } 
+
         }
-        
-    }
-    
+    });
+
+
+
 }
 
 
@@ -422,46 +437,48 @@ function addLocationToMap(locData){
     }
     
     
-    // Create some html to be written in an infowindow when mousing over a vending machine
-    var contentString = "<h4 style='text-align: center'>Out of "+(parseInt(locData.ups)+parseInt(locData.downs))+" votes</h4>";
-
-    var likePercentage = parseInt((parseInt(locData.ups) / (parseInt(locData.ups) + parseInt(locData.downs))) * 100);
-    
-    contentString +=    '<div class="progress" style="width:200px">\
-                            <div class="progress-bar progress-bar-success" style="width: ' + likePercentage + '%">\
-                            </div>\
-                            <div class="progress-bar progress-bar-danger" style="width: ' + (100 - likePercentage) + '%">\
-                            </div>\
-                        </div>';
-
-    contentString += "<h5 style='text-align: center'>Aproval of: " + likePercentage + "%</h5>";
-
-    var infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
+//    // Create some html to be written in an infowindow when mousing over a vending machine
+//    var contentString = "<h4 style='text-align: center'>Out of "+(parseInt(locData.ups)+parseInt(locData.downs))+" votes</h4>";
+//
+//    var likePercentage = parseInt((parseInt(locData.ups) / (parseInt(locData.ups) + parseInt(locData.downs))) * 100);
+//    
+//    contentString +=    '<div class="progress" style="width:200px">\
+//                            <div class="progress-bar progress-bar-success" style="width: ' + likePercentage + '%">\
+//                            </div>\
+//                            <div class="progress-bar progress-bar-danger" style="width: ' + (100 - likePercentage) + '%">\
+//                            </div>\
+//                        </div>';
+//
+//    contentString += "<h5 style='text-align: center'>Aproval of: " + likePercentage + "%</h5>";
+//
+//    var infowindow = new google.maps.InfoWindow({
+//        content: contentString
+//    });
 
     var marker = new google.maps.Marker({
         position: {
-            "lat": locData.lat,
-            "lng": locData.lon
+            "lat": parseFloat(locData.lat),
+            "lng": parseFloat(locData.lng)
         },
         map: map,
-        title: 'Submitted By: ' + locData.submitted,
+        title: 'Submitted On: ' + locData.createdOn,
         icon: {
             "url": 'img/VendinGoGoicon.svg',
             "scaledSize": new google.maps.Size(80, 80)
         },
-        infowindow: infowindow,
+//        infowindow: infowindow,
         vendingId: locData.id
     });
 
-    google.maps.event.addListener(marker, 'mouseover', function () {
-        this.infowindow.open(map, this);
-    });
+    console.log(marker.position.lng());
 
-    google.maps.event.addListener(marker, 'mouseout', function () {
-        this.infowindow.close(map, this);
-    });
+//    google.maps.event.addListener(marker, 'mouseover', function () {
+//        this.infowindow.open(map, this);
+//    });
+//
+//    google.maps.event.addListener(marker, 'mouseout', function () {
+//        this.infowindow.close(map, this);
+//    });
 
     // Add events to fire during a click
     google.maps.event.addListener(marker, 'click', function () {
@@ -485,179 +502,23 @@ function addLocationToMap(locData){
 
 function getVendingMachineInfo(id, errorCallBack, successCallBack){
     
-    var machineInfo = [
-        {
-            "lat": 33.4540,
-            "lon": -88.7890,
-            "id": 132,
-            "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.",
-
-            "updates":[
-                {
-                    "id":11,
-                    "ups": 4,
-                    "downs": 2,
-                    "raw": "TEST"
-                },{
-                    "id":21,
-                    "ups": 4,
-                    "downs": 2,
-                    "raw": "TEST"
-                }
-            ],
-            "ups": 30,
-            "downs": 6,
-            "submitted": "Eli"
-        },
-        
-        {
-            "lat": 33.4540,
-            "lon": -88.9890,
-            "id": 131,
-            "Description": "",
-
-            "updates":[
-                {
-                    "id":10,
-                    "ups": 4,
-                    "downs": 2,
-                    "raw": "TEST"
-                },{
-                    "id":12,
-                    "ups": 4,
-                    "downs": 2,
-                    "raw": "TEST"
-                }
-            ],
-            "ups": 111,
-            "downs": 22,
-            "submitted": "Josh"
-        },
-        
-        {
-            "lat": 33.540,
-            "lon": -88.7890,
-            "id": 11,
-            "Description": "Lorem ipsnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,assa quis enim. Donec pede justo, fringilla vel, aliquet nec, vu. Phasellus viverra nulla ut metus varius laoreet.",
-
-            "updates":[],
-            "ups": 10,
-            "downs": 1,
-            "submitted": "Kaleb"
-        },
-        
-        {
-            "lat": 33.540,
-            "lon": -88.8890,
-            "id": 31,
-            "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.",
-            "updates":[
-                {
-                    "id":1,
-                    "ups": 4,
-                    "downs": 2,
-                    "raw": "TEST"
-                },{
-                    "id":2,
-                    "ups": 4,
-                    "downs": 2,
-                    "raw": "TEST"
-                },{
-                    "id":3,
-                    "ups": 4,
-                    "downs": 2,
-                    "raw": "TEST"
-                },{
-                    "id":4,
-                    "ups": 4,
-                    "downs": 2,
-                    "raw": "TEST"
-                },{
-                    "id":5,
-                    "ups": 4,
-                    "downs": 2,
-                    "raw": "TEST"
-                },{
-                    "id":6,
-                    "ups": 4,
-                    "downs": 2,
-                    "raw": "TEST"
-                },{
-                    "id":7,
-                    "ups": 4,
-                    "downs": 2,
-                    "raw": "TEST"
-                },{
-                    "id":8,
-                    "ups": 4,
-                    "downs": 2,
-                    "raw": "TEST"
-                },{
-                    "id":9,
-                    "ups": 4,
-                    "downs": 2,
-                    "raw": "TEST"
-                }
-            ],
-            "ups": 3,
-            "downs": 4,
-            "submitted": "Hunter"
-        }];
     
-    var machine;
+    makeHttpRequest("http://localhost:8000/api/getVendingInfo.php?id="+id, errorCallBack, successCallBack);
     
-    for(var i = 0; i < machineInfo.length; i ++){
-        if(machineInfo[i].id === id){
-            machine = machineInfo[i];
-        }
-    }
-    
-    successCallBack(machine);
     
 }
 
 
-function getVendingLocations(){
+function getVendingLocations(cb){
     
-    return [
-
-        {
-            "lat": 33.4540,
-            "lon": -88.7890,
-            "id": 132,
-            "ups": 30,
-            "downs": 6,
-            "submitted": "Eli"
-        },
+    makeHttpRequest("api/getVendingLocations.php",
+    function(){
         
-        {
-            "lat": 33.4540,
-            "lon": -88.9890,
-            "id": 131,
-            "ups": 111,
-            "downs": 22,
-            "submitted": "Josh"
-        },
+        console.log("ELI FIGURE OUT WHAT TO DO IN THIS SCENARIO");
         
-        {
-            "lat": 33.540,
-            "lon": -88.7890,
-            "id": 11,
-            "ups": 10,
-            "downs": 1,
-            "submitted": "Kaleb"
-        },
-        
-        {
-            "lat": 33.540,
-            "lon": -88.8890,
-            "id": 31,
-            "ups": 3,
-            "downs": 4,
-            "submitted": "Hunter"
-        }
-
-    ];
+    }, function(data){
+        cb(data);
+    });
     
 }
 
