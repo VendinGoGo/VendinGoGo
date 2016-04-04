@@ -8,10 +8,16 @@
 
 include("connections.php");
 
-// TODO: change this to defend against mysql injection
+$stmt = $conn->prepare("INSERT INTO `vendinglocation` (`lat`, `lng`, `submittedBy`, `numOfMachines`, `howToFind`) VALUES (?, ?, 0, ?, ?)");
 
-$result = $conn->query("INSERT INTO `vendinglocation` (`lat`, `lng`, `submittedBy`, `numOfMachines`, `howToFind`) VALUES ('".$_GET["lat"]."', '".$_GET["lng"]."', '0', '".$_GET["m"]."', '".$_GET["w"]."')");
-if (!$result) {
+$lat = filter_input(INPUT_GET, "lat", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+$lng = filter_input(INPUT_GET, "lng", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+$numOfMachines = filter_input(INPUT_GET, "m", FILTER_SANITIZE_NUMBER_INT);
+$howToFind = filter_input(INPUT_GET, "w", FILTER_SANITIZE_STRING);
+
+$stmt->bind_param("ddis", $lat, $lng, $numOfMachines, $howToFind);
+
+if (!$stmt->execute()) {
     die('{"result": "failure"}');
 } else {
     echo '{"result": "success"}';
