@@ -8,12 +8,18 @@
 
 include("connections.php");
 
-// TODO: change this to defend against mysql injection
-$result = $conn->query("INSERT INTO `statuses` (`userId`, `vendingId`,`comment`) VALUES ('1', '".$_GET["id"]."' ,'".$_GET["comment"]."')");
+$stmt = $conn->prepare("INSERT INTO `statuses` (`userId`, `vendingId`,`comment`) VALUES ('1', ? ,?)");
 
-if (!$result) {
+$id = filter_input(INPUT_GET, "id");
+$comment =  filter_input(INPUT_GET, "comment");
+
+$stmt->bind_param("is", $id, $comment);
+$dib = $stmt->execute();
+
+if (!$dib) {
     die('{"result": "failure"}');
 } else {
+    
     echo '{"result": "success"}';
 }
 

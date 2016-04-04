@@ -2,7 +2,7 @@
 
 include("connections.php");
 
-$vId = (int)$_GET["id"];
+$vId = filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
 
 if ($vId !== null && $vId !== 0) {
 
@@ -12,12 +12,9 @@ if ($vId !== null && $vId !== 0) {
 
 function getVendingInfo($conn, $vendingId){
     $stmt = $conn->prepare("SELECT id, lat, lng, numOfMachines, howToFind FROM vendinglocation WHERE id = ?;");
+    $stmt->bind_param("i", $vendingId);
 
-    if($stmt){
-        
-        $stmt->bind_param("i", $vendingId);
-
-        $dib = $stmt->execute();
+    if($stmt->execute()){
 
         $stmt->bind_result($id, $lat, $lng, $numOfMachines, $howToFind);
 
@@ -50,13 +47,10 @@ function getVendingInfo($conn, $vendingId){
 function getVendingStatus($conn, $id){
     
     $stmt = $conn->prepare("SELECT id, userId, comment, date FROM statuses WHERE vendingId = ?  ORDER BY date DESC;");
+    $stmt->bind_param("i", $id);
 
-    if($stmt){
+    if($stmt->execute()){
     
-        $stmt->bind_param("i", $id);
-
-        $dib = $stmt->execute();
-
         $stmt->bind_result($statusId, $userId, $comment, $date);
 
         /* fetch values */

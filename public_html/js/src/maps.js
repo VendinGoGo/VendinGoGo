@@ -294,17 +294,26 @@ function SidebarViewModel(){
     
     self.leaveComment = function(){
         
-        
         if(self.newCommentText() === null || self.newCommentText() === undefined || self.newCommentText() === ""){
-                   console.log("leaving comment..");
-
             return;
         }
         
-        makeHttpRequest("api/addVendingStatus.php?id="+self.mainVendingMachine().id+"&comment="+self.newCommentText(),
-        function(){}, function(data){
-            console.log(data);
-        });
+        if(self.mainVendingMachine() === null || self.mainVendingMachine().id === undefined){
+            return;
+        }
+        
+        var request = "api/addVendingStatus.php?id=" + self.mainVendingMachine().id + "&comment=" + self.newCommentText();
+        
+        console.log(request);
+        
+        makeHttpRequest(request, function () {}, 
+                function (data) {
+                    if (data.result === "success") {
+                        setMainVendingMachine(self.mainVendingMachine().id);
+                    } else if (data.result === "failure") {
+                        console.log("Unable to add the status");
+                    }
+                });
     };
 
 }
@@ -488,8 +497,6 @@ function addLocationToMap(locData){
         vendingId: locData.id
     });
 
-    console.log(marker.position.lng());
-
 //    google.maps.event.addListener(marker, 'mouseover', function () {
 //        this.infowindow.open(map, this);
 //    });
@@ -501,7 +508,6 @@ function addLocationToMap(locData){
     // Add events to fire during a click
     google.maps.event.addListener(marker, 'click', function () {
         map.panTo(this.getPosition());
-        console.log(this);
         getVendingMachineInfo(this.vendingId, function (err) {
         }, function (data) {
             viewModel.setMainVendingMachineView(data);
@@ -515,6 +521,13 @@ function addLocationToMap(locData){
     
     return marker;
 
+}
+
+function setMainVendingMachine(id){
+    getVendingMachineInfo(id, function (err) {
+    }, function (data) {
+        viewModel.setMainVendingMachineView(data);
+    });
 }
 
 
@@ -584,7 +597,7 @@ function makeHttpRequest(url, errcb, succb){
     
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-            //console.log(xmlhttp.responseText);
+            console.log(xmlhttp.responseText);
             var postData = JSON.parse(xmlhttp.responseText);
             succb(postData);
         } else {
