@@ -19,7 +19,7 @@ Brought to you by: Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
         <!--Load Style Sheets-->
         <link href="js/libs/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="style/index.css" rel="stylesheet">
-        
+
     </head>
 
     <body style="height:100%">
@@ -57,20 +57,43 @@ Brought to you by: Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
                                 <div class="panel-body">
                                     <div data-bind="with: mainVendingMachine">
 
-<!--                                        <div class="progress" style="width:100%">
-
+                                        <!--                                       
+                                        <div class="progress" style="width:100%">
+                                        
                                             <div class="progress-bar progress-bar-success" data-bind="style:{ width: (ups/(ups+downs))*100+'%'}" ></div>
                                             <div class="progress-bar progress-bar-danger" data-bind="style:{ width: (downs/(ups+downs))*100+'%'}" ></div>
-
-                                        </div>-->
+                                        
+                                            </div>
+                                        -->
 
                                         <h4>How To Find:</h4>
                                         <p data-bind="text: $parent.getHowToFind"></p>
 
-                                        <!--                                        <div data-bind="foreach: updates">
-                                                                                    <div class="alert alert-info" role="alert" data-bind="text: raw" style="padding:8px;margin-bottom: 10px"></div>
-                                                                                </div>-->
+                                        <br/>
+                                        
+                                        <div data-bind="if: statuses.length > 0">
+                                            <h4>Statuses:</h4>
+                                            
+                                            <div data-bind="foreach: statuses">
+                                                <div class="well well-sm" role="alert" style="padding:8px;margin-bottom: 10px">
+                                                    
+                                                    <span  data-bind="text: comment"></span>
 
+                                                    <br/>
+                                                    <span class="label label-default" data-bind="text: date" style="margin-top: 15px;" ></span>
+                                                    
+                                                </div>
+
+                                            </div>
+                                            <br/>
+                                        </div>
+
+                                        <div>
+                                            <h4>Leave Comment:</h4>
+                                            <textarea class="form-control" data-bind="value: $parent.newCommentText"></textarea>
+                                            <button class="btn btn-success" data-bind="click: $parent.leaveComment" style="margin-top: 5px;">Post</button>
+                                            <br/><br/>
+                                        </div>
 
                                         <span class="label label-success">Number of Machines: <span data-bind="html: numOfMachines"></span></span>
 
@@ -98,32 +121,32 @@ Brought to you by: Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
                         </div>
 
                     </div>
-                    
-                    
+
+
                     <div data-bind="if: shouldShowVendingCreationView">
-                        
+
                         <div  data-bind="if: creationMarker() ===null">
                             <div class="alert alert-danger" role="alert">
                                 Right click on the map to set a vending location!
                             </div>
                         </div>
-                        
+
                         <span class="form-inline">Number of Machines in location: <input data-bind="value: creationNumMachines" class="form-control" type="number" min="1" placeholder="2"></span>
 
                         <br/><br/>
-                        
+
                         <span>Describe How To Find The Machines:</span>
                         <textarea data-bind="value:creationHowToFind" class="form-control" placeholder="To the left of the front entrance.."></textarea>
-                        
+
                         <br/>
-                        
+
                         <div  data-bind="if: creationMarker() !== null">
                             <button type="button" data-bind="click: createMachineLocation" class="btn btn-success">Create Machine</button>
                         </div>
-                        
+
                     </div>
-                    
-                    
+
+
                 </div>
 
                 <div class="col-md-9" style="padding-left: 0px;padding-right: 0px; height: 100%">
@@ -133,7 +156,7 @@ Brought to you by: Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
             </div>
 
         </div>
-        
+
         <!--Libraries-->
         <script src="js/libs/knockout/knockout-3.4.0.js"></script>
         <script src='js/libs/markerclusterer_compiled.js'></script>
@@ -142,7 +165,7 @@ Brought to you by: Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
 
         <!--our code-->
         <script src="js/src/maps.js"></script>
-        
+
         <!--Make sure this  is loaded after map is so it doesn't try calling init before init is loaded onto the page-->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKdjL4G5gfdxhuqxVQTzVNmIUL7bE5-tE&callback=initMap" async defer></script>
 

@@ -289,6 +289,24 @@ function SidebarViewModel(){
         self.creationMarker(null);
     };
 
+
+    self.newCommentText = ko.observable("");
+    
+    self.leaveComment = function(){
+        
+        
+        if(self.newCommentText() === null || self.newCommentText() === undefined || self.newCommentText() === ""){
+                   console.log("leaving comment..");
+
+            return;
+        }
+        
+        makeHttpRequest("api/addVendingStatus.php?id="+self.mainVendingMachine().id+"&comment="+self.newCommentText(),
+        function(){}, function(data){
+            console.log(data);
+        });
+    };
+
 }
 
 

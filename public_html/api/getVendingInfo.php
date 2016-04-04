@@ -10,30 +10,74 @@ if ($vId !== null && $vId !== 0) {
     
 }
 
-function getVendingInfo($conn, $id){
-    $stmt = $conn->prepare("SELECT lat, lng, numOfMachines, howToFind FROM vendinglocation WHERE id = ?;");
+function getVendingInfo($conn, $vendingId){
+    $stmt = $conn->prepare("SELECT id, lat, lng, numOfMachines, howToFind FROM vendinglocation WHERE id = ?;");
 
-    $stmt->bind_param("i", $id);
+    if($stmt){
+        
+        $stmt->bind_param("i", $vendingId);
 
-    $dib = $stmt->execute();
+        $dib = $stmt->execute();
 
-    $stmt->bind_result($lat, $lng, $numOfMachines, $howToFind);
+        $stmt->bind_result($id, $lat, $lng, $numOfMachines, $howToFind);
 
-
-    /* fetch values */
-    while ($stmt->fetch()) {
         $row = array();
 
-        $row['lat'] = utf8_encode($lat);
-        $row['lng'] = utf8_encode($lng);
-        $row['numOfMachines'] = utf8_encode($numOfMachines);
-        $row['howToFind'] = utf8_encode($howToFind);
+        /* fetch values */
+        while ($stmt->fetch()) {
+
+            $row['id'] = utf8_encode($id);
+            $row['lat'] = utf8_encode($lat);
+            $row['lng'] = utf8_encode($lng);
+            $row['numOfMachines'] = utf8_encode($numOfMachines);
+            $row['howToFind'] = utf8_encode($howToFind);
+
+        }
+
+        $stmt->close();
+
+        $row['statuses'] = getVendingStatus($conn, $vendingId);
 
         print json_encode($row);
 
+    } else {
+        echo '{"result": "failure"}';
     }
+    
+}
 
-    $stmt->close();
+
+function getVendingStatus($conn, $id){
+    
+    $stmt = $conn->prepare("SELECT id, userId, comment, date FROM statuses WHERE vendingId = ?  ORDER BY date DESC;");
+
+    if($stmt){
+    
+        $stmt->bind_param("i", $id);
+
+        $dib = $stmt->execute();
+
+        $stmt->bind_result($statusId, $userId, $comment, $date);
+
+        /* fetch values */
+        $rows = array();
+        while ($stmt->fetch()) {
+            $row = array();
+
+            $row['statusId'] = utf8_encode($statusId);
+            $row['userId'] = utf8_encode($userId);
+            $row['comment'] = utf8_encode($comment);
+            $row['date'] = utf8_encode($date);
+
+            $rows[] = $row;
+        }
+
+        $stmt->close();
+        
+        return $rows;
+    }
+    
+    return "";
 }
 
 $conn->close();
