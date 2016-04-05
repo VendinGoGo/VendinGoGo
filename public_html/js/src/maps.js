@@ -269,6 +269,8 @@ function SidebarViewModel(){
                 
                 self.switchToVendingMachineView();
                 self.clearCreateLocationMarker();
+                setMainVendingMachine(data.id);
+                addVendingMachineToMap(data.id);
                 
             } else if( data.result === "failure"){
                
@@ -533,9 +535,7 @@ function setMainVendingMachine(id){
 
 function getVendingMachineInfo(id, errorCallBack, successCallBack){
     
-    
-    makeHttpRequest("http://localhost:8000/api/getVendingInfo.php?id="+id, errorCallBack, successCallBack);
-    
+    makeHttpRequest("api/getVendingInfo.php?id="+id, errorCallBack, successCallBack);
     
 }
 
@@ -545,6 +545,7 @@ function getVendingLocations(cb){
     makeHttpRequest("api/getVendingLocations.php",
     function(){
         
+        alert("Failure grabbing vending machine locations.  Sorry about that. Kisses");
         console.log("ELI FIGURE OUT WHAT TO DO IN THIS SCENARIO");
         
     }, function(data){
@@ -553,6 +554,11 @@ function getVendingLocations(cb){
     
 }
 
+function addVendingMachineToMap(id){
+    makeHttpRequest("api/getVendingInfo.php?id="+id, function(){}, function(data){
+        markerCluster.addMarker(addLocationToMap(data));
+    });
+}
 
 function getMapStyle(){
     

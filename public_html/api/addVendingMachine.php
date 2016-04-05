@@ -20,7 +20,11 @@ $stmt->bind_param("ddis", $lat, $lng, $numOfMachines, $howToFind);
 if (!$stmt->execute()) {
     die('{"result": "failure"}');
 } else {
-    echo '{"result": "success"}';
+    
+    
+    echo '{"result": "success",';
+    echo '"id":'.$stmt->insert_id;
+    echo '}';
 }
 
 $conn->close();

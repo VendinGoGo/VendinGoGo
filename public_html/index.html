@@ -96,11 +96,25 @@ https://github.com/VendinGoGo/VendinGoGo
                                             <div data-bind="foreach: statuses">
                                                 <div class="well well-sm" role="alert" style="padding:8px;margin-bottom: 10px">
                                                     
-                                                    <span  data-bind="text: comment"></span>
+                                                    <div class="row">
+                                                        <div class="col-xs-8 col-sm-9">
+                                                            <span  data-bind="text: comment"></span>
+                                                            <br/><br/>
+                                                            <span class="label label-default" data-bind="text: date" style="margin-top: 15px;" ></span>
+                                                        </div>
+                                                        <div class="col-xs-4 col-sm-3">
+                                                            <center>
+                                                                <span class="glyphicon glyphicon-arrow-up"  aria-hidden="true"></span>
+                                                                <br/>
+                                                                
+                                                                180
+                                                                
+                                                                <br/>
+                                                                <span class="glyphicon glyphicon-arrow-down"  aria-hidden="true"></span>
 
-                                                    <br/><br/>
-                                                    <span class="label label-default" data-bind="text: date" style="margin-top: 15px;" ></span>
-                                                    
+                                                            </center>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -130,7 +144,7 @@ https://github.com/VendinGoGo/VendinGoGo
 
                             <div data-bind='foreach: getSmallLocationsToView'>
                                 <center class='col-md-4 col-lg-3 col-sm-6 col-xs-6' style='padding-left: 5px;padding-right: 5px;'>
-                                    <button style='width:100%;margin-bottom: 10px;' type="button" class="btn btn-info"  
+                                    <button type="button" class="btn btn-info small-vending-loc"  
                                             data-bind="click:$parent.viewSmallLocation, event: {mouseover: $parent.animateSmallLocation, mouseout: $parent.stopSmallLocationAnimation}">
                                         View
                                     </button>
@@ -162,6 +176,13 @@ https://github.com/VendinGoGo/VendinGoGo
                         <div  data-bind="if: creationMarker() !== null">
                             <button type="button" data-bind="click: createMachineLocation" class="btn btn-success">Create Machine</button>
                         </div>
+                        
+                        <br/><br/><br/>
+                        <center>
+                            <button class="btn btn-warning btn-lg" style="width:80%;" data-bind="click: switchToVendingMachineView">
+                                Cancel Creation Process  <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> 
+                            </button>
+                        </center>
 
                     </div>
 
