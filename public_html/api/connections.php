@@ -8,7 +8,7 @@
 
 $servername = "127.0.0.1";
 $username = "root";
-$password = "99bottlesofbeer";
+$password = getenv('DB_PASSWORD');
 $dbname = "vendingogo";
 
 // Create connection
