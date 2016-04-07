@@ -8,7 +8,7 @@
 
 $servername = "127.0.0.1";
 $username = "root";
-$password = "";
+$password = "99bottlesofbeer";
 $dbname = "vendingogo";
 
 // Create connection
