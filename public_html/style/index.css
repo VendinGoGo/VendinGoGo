@@ -30,10 +30,17 @@ body {
     height: 100%;
 }
 
-#navbar-brand-text {
-    margin-top: 12px;
+.navbar-brand {
     font-size: large;
-    color: #f4f4f4;
+    color: #fafafa;
+}
+
+.dropdown-toggle {
+    
+}
+
+.add-button {
+    color: #21d467;
 }
 
 #add-textButton {

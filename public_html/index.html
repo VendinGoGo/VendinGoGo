@@ -46,13 +46,17 @@ https://github.com/VendinGoGo/VendinGoGo
 <!--Navbar-->
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
+                <ul class="nav navbar-nav navbar-center">
+                    <div class="navbar-brand">
+                        VendinGoGo
+                    </div>
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li class="add-button" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>                    
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">EliCDavis <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="api/twitterLogin.php">TWITTER LOGIN</a></li>
+                            <li><a href="api/twitterLogin.php">Log In via Twitter</a></li>
                             <li><a href="">Log Out</a></li>
                         </ul>
                     </li>
@@ -141,7 +145,7 @@ https://github.com/VendinGoGo/VendinGoGo
                         </div>
 
                         <div data-bind="if: !shouldShowMainView() && getSmallLocationsToView().length === 0">
-                            <center><h1>No Vending Locations Near You :(</h1></center>
+                            <center><h1 style="color:#7a7a7a; margin-top:80%; max-width:300px;">No Vending Locations Near You :(</h1></center>
                         </div>
 
                         <div class='row'>
@@ -163,28 +167,28 @@ https://github.com/VendinGoGo/VendinGoGo
                     <div data-bind="if: shouldShowVendingCreationView">
 
                         <div  data-bind="if: creationMarker() ===null">
-                            <div class="alert alert-danger" role="alert">
-                                Right click on the map to set a vending location!
+                            <div class="alert alert-danger" role="alert" style="font-size:125%">
+                                Right click on the map to set a vending location.
                             </div>
                         </div>
 
-                        <span class="form-inline">Number of Machines in location: <input data-bind="value: creationNumMachines" class="form-control" type="number" min="1" placeholder="2"></span>
+                        <span class="form-inline"><b>Number of machines at location</b> (max: 9)<br><input data-bind="value: creationNumMachines" class="form-control" type="number" min="1" max="9" placeholder="2"></span>
 
                         <br/><br/>
 
-                        <span>Describe How To Find The Machines:</span>
-                        <textarea data-bind="value:creationHowToFind" class="form-control" placeholder="To the left of the front entrance.."></textarea>
+                        <span><b>Description of how to find the machine(s)</b></span>
+                        <textarea data-bind="value:creationHowToFind" class="form-control" placeholder="To the left of the front entrance..." style="max-width:100%;"></textarea>
 
                         <br/>
 
                         <div  data-bind="if: creationMarker() !== null">
-                            <button type="button" data-bind="click: createMachineLocation" class="btn btn-success">Create Machine</button>
+                            <button type="button" data-bind="click: createMachineLocation" class="btn btn-success">Add Machine Location</button>
                         </div>
                         
                         <br/><br/><br/>
                         <center>
-                            <button class="btn btn-warning btn-lg" style="width:80%;" data-bind="click: switchToVendingMachineView">
-                                Cancel Creation Process  <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> 
+                            <button class="btn btn-danger btn-lg" style="width:80%;" data-bind="click: switchToVendingMachineView">
+                                Cancel Adding Location <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> 
                             </button>
                         </center>
 
