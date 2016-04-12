@@ -31,3 +31,14 @@ CREATE TABLE `statuses` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='A list of statuses submitted by users';
 ```
+##### Users
+```SQL
+CREATE TABLE `users` (
+  `id` bigint(25) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `oauth` varchar(50) NOT NULL,
+  `signup` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idusers_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
