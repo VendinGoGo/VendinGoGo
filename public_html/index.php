@@ -9,7 +9,20 @@ ____   ____                 .___.__         ________         ________
 Brought to you by: Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
 https://github.com/VendinGoGo/VendinGoGo
 -->
+<?php 
+session_start();
 
+	if(!isset($_SESSION['access_token'])) {
+		$accountName = "LOGIN";
+	} else {
+		$accountName = $_SESSION['access_token']['screen_name'];
+	}
+	
+	if(isset($_GET['LOGOUT'])){
+		session_destroy();
+		header('Location: ../../index.php');
+	}
+?>
 <html style="height:100%">
 
     <head>
@@ -54,10 +67,15 @@ https://github.com/VendinGoGo/VendinGoGo
                 <ul class="nav navbar-nav navbar-right">
                     <li class="add-button" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>                    
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $accountName; ?><span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="api/twitterLogin.php">Log In via Twitter</a></li>
-                            <li><a href="">Log Out</a></li>
+			<?php
+			    if(!isset($_SESSION['access_token'])){
+                            	echo '<li><a href="api/twitterLogin.php">Log In via Twitter</a></li>';
+			    } else {
+			    	echo '<li><a href="index.php?LOGOUT=true">Log Out</a></li>';
+			    }
+			?>
                         </ul>
                     </li>
                 </ul>
