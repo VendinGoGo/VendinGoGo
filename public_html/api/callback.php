@@ -7,7 +7,6 @@
  */
 
 include("connections.php");
-include 'environment.php';
 
 define('CONSUMER_KEY', getenv('CONSUMER_KEY'));
 define('CONSUMER_SECRET', getenv('CONSUMER_SECRET'));
@@ -27,7 +26,6 @@ if (isset($_REQUEST['oauth_verifier'], $_REQUEST['oauth_token']) && $_REQUEST['o
     
     addUserToDatabase($conn, $access_token);
     // redirect user back to index page
-<<<<<<< HEAD
     header('Location: ../../');
 }
 
@@ -68,7 +66,3 @@ function addUserToDatabase($conn, $access_token){
     
 
 }
-=======
-    header('Location: ../../index.php');
-}
->>>>>>> kaleb-dev
