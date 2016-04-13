@@ -73,7 +73,7 @@ session_start();
 			    if(!isset($_SESSION['access_token'])){
                             	echo '<li><a href="api/twitterLogin.php">Log In via Twitter</a></li>';
 			    } else {
-			    	echo '<li><a href="index.php?LOGOUT=true";?>Log Out<a></li>';
+			    	echo '<li><a href="index.php?LOGOUT=true">Log Out</a></li>';
 			    }
 			?>
                         </ul>
