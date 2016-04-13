@@ -26,7 +26,7 @@ if (isset($_REQUEST['oauth_verifier'], $_REQUEST['oauth_token']) && $_REQUEST['o
     
     addUserToDatabase($conn, $access_token);
     // redirect user back to index page
-    header('Location: ../../');
+    header('Location: ../index.php');
 }
 
 
