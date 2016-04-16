@@ -1,0 +1,55 @@
+/*
+errorPage.css
+Created on 16 April 2016 by Hunter Holder.
+*/
+
+body {
+    background-color: #EFEFEF;
+    color: #2E2F30;
+    text-align: left;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+}
+
+#dialog {
+    max-width: 55%;
+    margin: 5% 10% 0;
+    /*            background-color: white;*/
+}
+
+h1 {
+    max-width: 26vw;
+    padding: 0 0 0 5%;
+    font-size: 800%;
+    font-size: 13vw;
+    color: #323d36;
+    background-color: white;
+    line-height: 1.5em;
+}
+
+#dialog > div > p {
+    /*            max-width: 11vw;*/
+    padding: 0 0 0 5%;
+    margin: -2em 0 0 0;
+    font-size: 300%;
+    font-size: 4.5vw;
+    color: dimgray;
+    background-color: white;
+    line-height: 1.5em;
+}
+
+#dialog > div > a {
+    padding: 2% 4% 2%;
+    font-size: 220%;
+    font-size: 3vw;
+    color: white;
+    background-color: #21d467;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    line-height: 1.5em;
+}
+
+#dialog > div > a:hover, #dialog > div > a:active  {
+    background-color: #11C447;
+}
