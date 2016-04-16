@@ -17,7 +17,7 @@ if (!isset($_SESSION['access_token'])) {
     $request_token = $connection->oauth('oauth/request_token', array('oauth_callback' => OAUTH_CALLBACK));
     $_SESSION['oauth_token'] = $request_token['oauth_token'];
     $_SESSION['oauth_token_secret'] = $request_token['oauth_token'];
-    $url = $connection->url('oauth/authorize', array('oauth_token' => $request_token['oauth_token']));
+    $url = $connection->url('oauth/authenticate', array('oauth_token' => $request_token['oauth_token']));
     echo '<script type="text/javascript"> window.location = "'.$url.'" </script>';
 } else {
     $access_token = $_SESSION['access_token'];
@@ -25,6 +25,6 @@ if (!isset($_SESSION['access_token'])) {
     $user = $connection->get("account/verify_credentials");
     $userName = $access_token['screen_name'];
     echo "<pre>";
-    print_r($_SESSION);
+    print_r($access_token);
     echo "</pre>";
 }

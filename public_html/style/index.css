@@ -35,6 +35,13 @@ body {
     color: #fafafa;
 }
 
+#profilePic {
+    height: 18px;
+    width: 18px;
+    margin-right: 8px;
+    border-radius: 1em;
+}
+
 .dropdown-toggle {
     
 }

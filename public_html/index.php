@@ -14,8 +14,10 @@ session_start();
 
 	if(!isset($_SESSION['access_token'])) {
 		$accountName = "Sign In";
+		$profilePic = "https://pixabay.com/static/uploads/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 	} else {
 		$accountName = $_SESSION['access_token']['screen_name'];
+		$profilePic = $_SESSION['tprofile_pic_url'];
 	}
 	
 	if(isset($_GET['LOGOUT'])){
@@ -72,11 +74,11 @@ session_start();
                     ?>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $accountName; ?><span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img id="profilePic" src="<?php echo $profilePic; ?>"/><?php echo $accountName; ?><span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <?php
                                 if(!isset($_SESSION['access_token'])){
-                                                echo '<li><a href="api/twitterLogin.php">Sign In via Twitter</a></li>';
+                                    echo '<li><a href="api/twitterLogin.php">Sign In via Twitter</a></li>';
                                 } else {
                                     echo '<li><a href="index.php?LOGOUT=true">Sign Out</a></li>';
                                 }
