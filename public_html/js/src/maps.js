@@ -187,6 +187,25 @@ function SidebarViewModel(){
     
 
     /**
+     * A computed variable that create's a string representing a url
+     * that will pull up a certain vending machine
+     */
+    self.getShareLink = ko.computed(function(){
+        
+        if(self.mainVendingMachine() === null || self.mainVendingMachine() === undefined){
+            return;
+        }
+        
+        if(self.mainVendingMachine().id === null || self.mainVendingMachine().id === undefined){
+            return;
+        }
+        
+        return window.location.origin+"/?id="+self.mainVendingMachine().id;
+        
+    },this);
+
+
+    /**
      * Set's the machine passed to be the main view if appropriate
      * 
      * @param {VendingLocationJSON} machine
@@ -262,17 +281,19 @@ function SidebarViewModel(){
         console.log(url);
         makeHttpRequest(url, 
         function(){
-            alert("Something went wrong trying to create the vending machine!");
+            displayMessage("Something went wrong trying to create the vending machine!");
         }, function(data){
             
             if(data.result === "success"){
                 
                 self.switchToVendingMachineView();
                 self.clearCreateLocationMarker();
+                setMainVendingMachine(data.id);
+                addVendingMachineToMap(data.id);
                 
             } else if( data.result === "failure"){
                
-               alert("Failure creating the vending machine!");
+               displayMessage("Failure creating the vending machine!");
                
             }
             
@@ -306,7 +327,9 @@ function SidebarViewModel(){
         
         console.log(request);
         
-        makeHttpRequest(request, function () {}, 
+        makeHttpRequest(request, function () {
+            displayMessage("Unable to post the comment");
+        }, 
                 function (data) {
                     if (data.result === "success") {
                         setMainVendingMachine(self.mainVendingMachine().id);
@@ -384,7 +407,9 @@ function initMap() {
 
         });
 
-    } 
+    }
+    
+    tryLoadingMachineFromURL();
 
 }
 
@@ -525,6 +550,7 @@ function addLocationToMap(locData){
 
 function setMainVendingMachine(id){
     getVendingMachineInfo(id, function (err) {
+        displayMessage("Unable to retrieve the requesting information for the vending machine");
     }, function (data) {
         viewModel.setMainVendingMachineView(data);
     });
@@ -545,7 +571,7 @@ function getVendingLocations(cb){
     makeHttpRequest("api/getVendingLocations.php",
     function(){
         
-        console.log("ELI FIGURE OUT WHAT TO DO IN THIS SCENARIO");
+        displayMessage("Unable to retrieve vending locations");
         
     }, function(data){
         cb(data);
@@ -597,7 +623,7 @@ function makeHttpRequest(url, errcb, succb){
     
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-            console.log(xmlhttp.responseText);
+            //console.log(xmlhttp.responseText);
             var postData = JSON.parse(xmlhttp.responseText);
             succb(postData);
         } else {
@@ -620,3 +646,51 @@ function makeHttpRequest(url, errcb, succb){
 
 }
 
+
+function addVendingMachineToMap(id){
+    makeHttpRequest("api/getVendingInfo.php?id="+id, function(){
+        displayMessage("Failure to add the vending machine to the map");
+    }, function(data){
+        markerCluster.addMarker(addLocationToMap(data));
+    });
+ }
+
+
+/**
+ * If an id is a variable in the url then we will try loading a vending
+ * location that uses that id to show to the user
+ * 
+ * @returns {undefined}
+ */
+function tryLoadingMachineFromURL(){
+    
+    var id = getParameterByName("id");
+    
+    console.log(id);
+    
+    if(id !== undefined && id !== null){
+        setMainVendingMachine(parseInt(id));
+    }
+    
+}
+
+
+//http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)", "i"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+
+/// Conjures modal that asks user whether they want to perform or cancel an action.
+function displayMessage(actionMessage) {
+    
+    $("#confirm-action").modal();
+    $("#custom-Action-Message").text(actionMessage);
+
+}

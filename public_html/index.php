@@ -149,18 +149,29 @@ session_start();
                                             <br/>
                                         </div>
 
-                                        <div>
+                                        <?php
+                                        if (isset($_SESSION['access_token'])) {
+                                            echo '<div>
                                             <h4>Leave Comment:</h4>
                                             <textarea class="form-control" style="resize: vertical; " data-bind="value: $parent.newCommentText"></textarea>
                                             <button class="btn btn-success" data-bind="click: $parent.leaveComment" style="margin-top: 5px;">Post</button>
                                             <br/><br/>
-                                        </div>
+                                        </div>';
+                                        } else {
+                                            echo '<h4>Log in to leave a comment!</h4>';
+                                        }
+                                        ?>
                                         <!--                                        <div data-bind="foreach: updates">
                                                                                 </div>-->
 
 
                                         <span class="label label-success">Number of Machines: <span data-bind="html: numOfMachines"></span></span>
-
+                                        <br><br>
+                                        <div>
+                                            <h4>Share This Location</h4>
+                                            <input class="form-control" type="text" data-bind="value: $parent.getShareLink">
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -226,6 +237,31 @@ session_start();
 
             </div>
 
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="confirm-action" role="dialog">
+            <div class="modal-dialog">
+                
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header" style="padding:15px 30px;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><span class="modal-title"></span>Something went wrong!</h4>
+                    </div>
+                    
+                    <div class="modal-body" style="padding:50px 20px 2px;">
+                        <p><span id="custom-Action-Message"></span>
+                        </p>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <a class="btn btn-warning btn-ok"data-dismiss="modal">Okay</a>
+                    </div>
+                </div>
+                
+            </div>
         </div>
 
         <!--Libraries-->
