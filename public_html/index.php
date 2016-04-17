@@ -86,8 +86,8 @@ session_start();
                                 
                                         <li class="add-button" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="https://github.com/VendinGoGo/VendinGoGo">VendinGoGo Source Code</a></li>
-                                        <li><a href="https://twitter.com/VendinGoGo">VendinGoGo on Twitter</a></li>
+                                        <li><a href="https://github.com/VendinGoGo/VendinGoGo" target="_blank">VendinGoGo Source Code</a></li>
+                                        <li><a href="https://twitter.com/VendinGoGo" target="_blank">VendinGoGo on Twitter</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li><a href="index.php?LOGOUT=true">Sign Out</a></li>
                                     
