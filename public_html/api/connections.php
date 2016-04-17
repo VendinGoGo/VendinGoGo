@@ -6,10 +6,10 @@
  * and open the template in the editor.
  */
 
-$servername = "127.0.0.1";
-$username = "root";
+$servername = getenv('DB_SRV');
+$username = getenv('DB_USER');
 $password = getenv('DB_PASSWORD');
-$dbname = "vendingogo";
+$dbname = getenv('DB_NAME');
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
