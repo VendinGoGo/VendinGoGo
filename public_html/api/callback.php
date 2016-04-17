@@ -36,7 +36,7 @@ if (isset($_REQUEST['oauth_verifier'], $_REQUEST['oauth_token']) && $_REQUEST['o
     addUserToDatabase($conn, $access_token, $user);
     
     //redirect user back to index page
-    header('Location: ../index.php');
+    header('Location: ../../index.php');
 }
 
 
@@ -49,7 +49,6 @@ function addUserToDatabase($conn, $access_token, $user){
     
     $stmt = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
 
-    print_r($user);
     $stmt->bind_param("i", $user->id);
     $stmt->execute();
     $stmt->store_result();
