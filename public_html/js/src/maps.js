@@ -251,8 +251,8 @@ function SidebarViewModel(){
                 map: map,
                 title: 'Click to zoom',
                 icon: {
-                    "url": 'img/VendinGoGoicon.svg',
-                    "scaledSize": new google.maps.Size(80, 80)
+                    "url": 'img/VGG-marker-selected.svg',
+                    "scaledSize": new google.maps.Size(40, 40)
                 },
             });
 
@@ -517,8 +517,8 @@ function addLocationToMap(locData){
         map: map,
         title: 'Submitted On: ' + locData.createdOn,
         icon: {
-            "url": 'img/VendinGoGoicon.svg',
-            "scaledSize": new google.maps.Size(80, 80)
+            "url": 'img/VGG-marker.svg',
+            "scaledSize": new google.maps.Size(40, 40)
         },
 //        infowindow: infowindow,
         vendingId: locData.id
@@ -585,7 +585,12 @@ function getVendingLocations(cb){
 function getMapStyle(){
     
     var mapOptions =
-        [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f4f4f4"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#46bcec"},{"visibility":"on"}]}];
+        [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},
+        {"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#eff9ed"}]},
+         {"featureType":"poi","elementType":"geometry","stylers":[{"color":"#cdecbc"}]}, 
+        {"featureType":"road","elementType":"geometry","stylers":[{"saturation":-100},{"lightness":45}]},
+        {"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"simplified"}]},
+        {"featureType":"water","elementType":"geometry","stylers":[{"color":"#46bcec"},{"visibility":"on"}]}];
     
     var customMapType = new google.maps.StyledMapType(mapOptions);
     
