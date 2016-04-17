@@ -230,7 +230,7 @@ session_start();
                                 <br/>
                                 <br/>
                                 <center>
-                                    <button class="btn btn-danger btn-lg" style="width:80%;" data-bind="click: switchToVendingMachineView">
+                                    <button class="btn btn-danger btn-lg" style="width:80%; padding: 4px 4px 4px 4px;" data-bind="click: switchToVendingMachineView">
                                         Cancel Adding Location <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
                                     </button>
                                 </center>
