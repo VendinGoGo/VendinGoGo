@@ -70,11 +70,7 @@ session_start();
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <?php
-                        if(isset($_SESSION['access_token'])){
-                            echo '<li class="add-button" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>';
-                        }
-                    ?>
+                    
                         <li>
                             <img id="profilePic" src="<?php echo $profilePic; ?>"/>
                         </li>
@@ -82,12 +78,13 @@ session_start();
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $accountName; ?><span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <?php
-                                if(!isset($_SESSION['access_token'])){
-                                    echo '<li><a href="api/twitterLogin.php">Sign In via Twitter</a></li>';
-                                } else {
-                                    echo '<li><a href="index.php?LOGOUT=true">Sign Out</a></li>';
-                                }
-                            ?>
+                                    if(!isset($_SESSION['access_token'])){
+                                        echo '<li><a href="api/twitterLogin.php">Sign In via Twitter</a></li>';
+                                    } else {
+                                        echo '<li class="add-button" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>';
+                                        echo '<li><a href="index.php?LOGOUT=true">Sign Out</a></li>';
+                                    }
+                                ?>
                             </ul>
                         </li>
                 </ul>
@@ -138,6 +135,9 @@ session_start();
                                                             <span data-bind="text: comment"></span>
                                                             <br/>
                                                             <br/>
+                                                            <span data-bind="if: username">
+                                                                <b>Submitted By:</b> <span data-bind="text: username"></span>
+                                                            </span>
                                                             <span class="label label-default" data-bind="text: date" style="margin-top: 15px;"></span>
                                                         </div>
                                                         <div class="col-xs-4 col-sm-3">
@@ -169,8 +169,7 @@ session_start();
                                             echo '<h4>Log in to leave a comment.</h4>';
                                         }
                                         ?>
-                                            <!--                                        <div data-bind="foreach: updates">
-                                                                                </div>-->
+                                           
 
 
                                             <span class="label label-success">Number of Machines: <span data-bind="html: numOfMachines"></span></span>
@@ -178,7 +177,7 @@ session_start();
                                             <br>
                                             <div>
                                                 <h4>Share This Location</h4>
-                                                <input class="form-control" type="text" data-bind="value: $parent.getShareLink">
+                                                <input onclick="this.focus();this.select()" readonly="readonly" class="form-control" type="text" data-bind="value: $parent.getShareLink">
                                             </div>
 
                                     </div>

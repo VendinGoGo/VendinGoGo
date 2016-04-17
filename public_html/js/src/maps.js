@@ -607,7 +607,7 @@ function makeHttpRequest(url, errcb, succb){
     
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-            //console.log(xmlhttp.responseText);
+            console.log(xmlhttp.responseText);
             var postData = JSON.parse(xmlhttp.responseText);
             succb(postData);
         } else {

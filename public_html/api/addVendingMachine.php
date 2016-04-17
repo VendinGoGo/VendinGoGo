@@ -6,19 +6,26 @@
  * and open the template in the editor.
  */
 
+session_start();
+
+if (!isset($_SESSION['access_token'])) {
+    die('{"result": "failure", "reason":"Your not logged in"}');
+    
+}
+
 include("connections.php");
 
-$stmt = $conn->prepare("INSERT INTO `vendinglocation` (`lat`, `lng`, `submittedBy`, `numOfMachines`, `howToFind`) VALUES (?, ?, 0, ?, ?)");
+$stmt = $conn->prepare("INSERT INTO `vendinglocation` (`lat`, `lng`, `submittedBy`, `numOfMachines`, `howToFind`) VALUES (?, ?, ?, ?, ?)");
 
 $lat = filter_input(INPUT_GET, "lat", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 $lng = filter_input(INPUT_GET, "lng", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 $numOfMachines = filter_input(INPUT_GET, "m", FILTER_SANITIZE_NUMBER_INT);
 $howToFind = filter_input(INPUT_GET, "w", FILTER_SANITIZE_STRING);
 
-$stmt->bind_param("ddis", $lat, $lng, $numOfMachines, $howToFind);
+$stmt->bind_param("ddiis", $lat, $lng, $_SESSION['access_token']['user_id'], $numOfMachines, $howToFind);
 
 if (!$stmt->execute()) {
-    die('{"result": "failure"}');
+    die('{"result": "failure", "reason": "'.$stmt->error.'"}');
 } else {
     
     

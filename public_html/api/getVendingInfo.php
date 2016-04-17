@@ -46,12 +46,13 @@ function getVendingInfo($conn, $vendingId){
 
 function getVendingStatus($conn, $id){
     
-    $stmt = $conn->prepare("SELECT id, userId, comment, date FROM statuses WHERE vendingId = ?  ORDER BY date DESC;");
+    $stmt = $conn->prepare("SELECT stat.id, stat.date, stat.comment, usr.id, usr.name FROM vendingogo.statuses AS stat INNER JOIN vendingogo.users as usr 
+                            ON usr.id = stat.userId WHERE stat.vendingId = ? ORDER BY date DESC;");
     $stmt->bind_param("i", $id);
 
     if($stmt->execute()){
     
-        $stmt->bind_result($statusId, $userId, $comment, $date);
+        $stmt->bind_result($statusId, $date, $comment, $userId, $userName);
 
         /* fetch values */
         $rows = array();
@@ -62,6 +63,7 @@ function getVendingStatus($conn, $id){
             $row['userId'] = utf8_encode($userId);
             $row['comment'] = utf8_encode($comment);
             $row['date'] = utf8_encode($date);
+            $row['username'] = utf8_encode($userName);
 
             $rows[] = $row;
         }
@@ -71,7 +73,7 @@ function getVendingStatus($conn, $id){
         return $rows;
     }
     
-    return "";
+    echo '{"result": "failure", "reason":, "'.$stmt->error.'"}';
 }
 
 $conn->close();
