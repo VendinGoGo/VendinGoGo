@@ -44,13 +44,19 @@ body {
     border-color: #d4d4d4;
 }
 
+.panel {
+    box-shadow: none;
+    drop-shadow: none;
+    border: none;
+}
+
 .panel-body {
     background-color: #f8f8f8;
     color: #525252;
 }
 
 .panel-body > p {
-    color: #626262
+    color: #626262;
 }
 
 .navbar-brand {
