@@ -34,8 +34,7 @@ body {
 #brandIcon {
     width: 32px;
     height: 32px;
-    margin-right: 8px;
-    margin-top: 20%;
+    margin: 8px 8px 0px 0px;
 }
 
 #sidebar {
@@ -65,10 +64,12 @@ body {
 }
 
 #profilePic {
-    height: 18px;
-    width: 18px;
-    margin-right: 8px;
+    height: 28px;
+    width: 28px;
+    margin: 10px -8px 10px 12px;
     border-radius: .2em;
+    position: relative;
+    z-index: 99;
 }
 
 .dropdown-toggle {

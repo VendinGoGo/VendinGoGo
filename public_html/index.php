@@ -75,9 +75,11 @@ session_start();
                             echo '<li class="add-button" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>';
                         }
                     ?>
-
+                        <li>
+                            <img id="profilePic" src="<?php echo $profilePic; ?>"/>
+                        </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img id="profilePic" src="<?php echo $profilePic; ?>"/><?php echo $accountName; ?><span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $accountName; ?><span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <?php
                                 if(!isset($_SESSION['access_token'])){
