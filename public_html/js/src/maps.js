@@ -333,8 +333,10 @@ function SidebarViewModel(){
                 function (data) {
                     if (data.result === "success") {
                         setMainVendingMachine(self.mainVendingMachine().id);
+                        self.newCommentText("");
                     } else if (data.result === "failure") {
                         console.log("Unable to add the status");
+                        displayMessage("Unable to create the status!")
                     }
                 });
     };

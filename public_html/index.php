@@ -71,22 +71,28 @@ session_start();
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     
-                        <li>
-                            <img id="profilePic" src="<?php echo $profilePic; ?>"/>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $accountName; ?><span class="caret"></span></a>
+                    <li>
+                        <img id="profilePic" src="<?php echo $profilePic; ?>"/>
+                    </li>
+                    <?php
+                    if (!isset($_SESSION['access_token'])) {
+                        echo '<li><a href="api/twitterLogin.php">Sign In via Twitter</a></li>';
+                    } else {
+                        echo '<li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">'. $accountName.'<span class="caret"></span></a>
+                            
+                            
                             <ul class="dropdown-menu">
-                                <?php
-                                    if(!isset($_SESSION['access_token'])){
-                                        echo '<li><a href="api/twitterLogin.php">Sign In via Twitter</a></li>';
-                                    } else {
-                                        echo '<li class="add-button" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>';
-                                        echo '<li><a href="index.php?LOGOUT=true">Sign Out</a></li>';
-                                    }
-                                ?>
+                                
+                                        <li class="add-button" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>
+                                        <li><a href="index.php?LOGOUT=true">Sign Out</a></li>
+                                    
+                                
                             </ul>
-                        </li>
+                        </li>';
+                    }
+                    ?>
+                    
                 </ul>
             </div>
         </nav>
