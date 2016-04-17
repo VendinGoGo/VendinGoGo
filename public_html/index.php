@@ -147,7 +147,7 @@ session_start();
                                                             <br/>
                                                             <span data-bind="if: username">
                                                                 <b>Submitted By:</b> <span data-bind="text: username"></span>
-                                                            </span>
+                                                            </span><br/>
                                                             <span class="label label-default" data-bind="text: date" style="margin-top: 15px;"></span>
                                                         </div>
                                                         <div class="col-xs-4 col-sm-3">
@@ -179,12 +179,11 @@ session_start();
                                             echo '<h4>Log in to leave a comment.</h4>';
                                         }
                                         ?>
-                                           
-
 
                                             <span class="label label-success">Number of Machines: <span data-bind="html: numOfMachines"></span></span>
                                             <br>
                                             <br>
+                                            <b>Submitted By:</b> <span data-bind="text: username"></span>
                                             <div>
                                                 <h4>Share This Location</h4>
                                                 <input onclick="this.focus();this.select()" readonly="readonly" class="form-control" type="text" data-bind="value: $parent.getShareLink">

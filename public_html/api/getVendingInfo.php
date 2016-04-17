@@ -11,12 +11,12 @@ if ($vId !== null && $vId !== 0) {
 }
 
 function getVendingInfo($conn, $vendingId){
-    $stmt = $conn->prepare("SELECT id, lat, lng, numOfMachines, howToFind FROM vendinglocation WHERE id = ?;");
+    $stmt = $conn->prepare("SELECT loc.id, loc.lat, loc.lng, loc.numOfMachines, loc.howToFind, loc.submittedBy, usr.name FROM vendingogo.vendinglocation AS loc INNER JOIN vendingogo.users AS usr ON usr.id = loc.submittedBy WHERE loc.id = ?;");
     $stmt->bind_param("i", $vendingId);
 
     if($stmt->execute()){
 
-        $stmt->bind_result($id, $lat, $lng, $numOfMachines, $howToFind);
+        $stmt->bind_result($id, $lat, $lng, $numOfMachines, $howToFind, $userId, $userName);
 
         $row = array();
 
@@ -28,6 +28,8 @@ function getVendingInfo($conn, $vendingId){
             $row['lng'] = utf8_encode($lng);
             $row['numOfMachines'] = utf8_encode($numOfMachines);
             $row['howToFind'] = utf8_encode($howToFind);
+            $row['userId'] = utf8_encode($userId);
+            $row['username'] = utf8_encode($userName);
 
         }
 
