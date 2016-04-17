@@ -1,30 +1,30 @@
 <!DOCTYPE html>
-<!--
-____   ____                 .___.__         ________         ________
-\   \ /   /____   ____    __| _/|__| ____  /  _____/  ____  /  _____/  ____
-\   Y   // __ \ /    \  / __ | |  |/    \/   \  ___ /  _ \/   \  ___ /  _ \
-\     /\  ___/|   |  \/ /_/ | |  |   |  \    \_\  (  <_> )    \_\  (  <_> )
-\___/  \___  >___|  /\____ | |__|___|  /\______  /\____/ \______  /\____/
-\/     \/      \/         \/        \/               \/
+<!-- 
+____   ____                 .___.__         ________         ________        
+\   \ /   /____   ____    __| _/|__| ____  /  _____/  ____  /  _____/  ____  
+ \   Y   // __ \ /    \  / __ | |  |/    \/   \  ___ /  _ \/   \  ___ /  _ \ 
+  \     /\  ___/|   |  \/ /_/ | |  |   |  \    \_\  (  <_> )    \_\  (  <_> )
+   \___/  \___  >___|  /\____ | |__|___|  /\______  /\____/ \______  /\____/ 
+              \/     \/      \/         \/        \/               \/     
 Brought to you by: Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
 https://github.com/VendinGoGo/VendinGoGo
 -->
-<?php
-    session_start();
-    
-    if(!isset($_SESSION['access_token'])) {
-        $accountName = "Sign In";
-        $profilePic = "https://pixabay.com/static/uploads/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
-    } else {
-        $accountName = $_SESSION['access_token']['screen_name'];
-        $profilePic = $_SESSION['tprofile_pic_url'];
-    }
-    
-    if(isset($_GET['LOGOUT'])){
-        session_destroy();
-        header('Location: ../../index.php');
-    }
-    ?>
+<?php 
+session_start();
+
+	if(!isset($_SESSION['access_token'])) {
+		$accountName = "Sign In";
+		$profilePic = "https://pixabay.com/static/uploads/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
+	} else {
+		$accountName = $_SESSION['access_token']['screen_name'];
+		$profilePic = $_SESSION['tprofile_pic_url'];
+	}
+	
+	if(isset($_GET['LOGOUT'])){
+		session_destroy();
+		header('Location: ../../index.php');
+	}
+?>
     <html style="height:100%">
 
     <head>
@@ -68,21 +68,21 @@ https://github.com/VendinGoGo/VendinGoGo
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <?php
-    if(isset($_SESSION['access_token'])){
-        echo '<li class="add-button" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>';
-    }
-    ?>
+                        if(isset($_SESSION['access_token'])){
+                            echo '<li class="add-button" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>';
+                        }
+                    ?>
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img id="profilePic" src="<?php echo $profilePic; ?>"/><?php echo $accountName; ?><span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <?php
-    if(!isset($_SESSION['access_token'])){
-        echo '<li><a href="api/twitterLogin.php">Sign In via Twitter</a></li>';
-    } else {
-        echo '<li><a href="index.php?LOGOUT=true">Sign Out</a></li>';
-    }
-    ?>
+                                if(!isset($_SESSION['access_token'])){
+                                    echo '<li><a href="api/twitterLogin.php">Sign In via Twitter</a></li>';
+                                } else {
+                                    echo '<li><a href="index.php?LOGOUT=true">Sign Out</a></li>';
+                                }
+                            ?>
                             </ul>
                         </li>
                 </ul>
@@ -108,14 +108,14 @@ https://github.com/VendinGoGo/VendinGoGo
                                 <div class="panel-body">
                                     <div data-bind="with: mainVendingMachine">
 
-                                        <!--
-<div class="progress" style="width:100%">
-
-<div class="progress-bar progress-bar-success" data-bind="style:{ width: (ups/(ups+downs))*100+'%'}" ></div>
-<div class="progress-bar progress-bar-danger" data-bind="style:{ width: (downs/(ups+downs))*100+'%'}" ></div>
-
-</div>
--->
+                                        <!--                                       
+                                        <div class="progress" style="width:100%">
+                                        
+                                            <div class="progress-bar progress-bar-success" data-bind="style:{ width: (ups/(ups+downs))*100+'%'}" ></div>
+                                            <div class="progress-bar progress-bar-danger" data-bind="style:{ width: (downs/(ups+downs))*100+'%'}" ></div>
+                                        
+                                            </div>
+                                        -->
 
                                         <h4>How To Find:</h4>
                                         <p data-bind="text: $parent.getHowToFind"></p>
@@ -153,19 +153,19 @@ https://github.com/VendinGoGo/VendinGoGo
                                         </div>
 
                                         <?php
-    if (isset($_SESSION['access_token'])) {
-        echo '<div>
-        <h4>Leave Comment:</h4>
-        <textarea class="form-control" style="resize: vertical; " data-bind="value: $parent.newCommentText"></textarea>
-        <button class="btn btn-success" data-bind="click: $parent.leaveComment" style="margin-top: 5px;">Post</button>
-        <br/><br/>
-        </div>';
-    } else {
-        echo '<h4>Log in to leave a comment!</h4>';
-    }
-    ?>
+                                        if (isset($_SESSION['access_token'])) {
+                                            echo '<div>
+                                            <h4>Leave Comment:</h4>
+                                            <textarea class="form-control" style="resize: vertical; " data-bind="value: $parent.newCommentText"></textarea>
+                                            <button class="btn btn-success" data-bind="click: $parent.leaveComment" style="margin-top: 5px;">Post</button>
+                                            <br/><br/>
+                                        </div>';
+                                        } else {
+                                            echo '<h4>Log in to leave a comment.</h4>';
+                                        }
+                                        ?>
                                             <!--                                        <div data-bind="foreach: updates">
-</div>-->
+                                                                                </div>-->
 
 
                                             <span class="label label-success">Number of Machines: <span data-bind="html: numOfMachines"></span></span>
@@ -184,7 +184,7 @@ https://github.com/VendinGoGo/VendinGoGo
 
                         <div data-bind="if: !shouldShowMainView() && getSmallLocationsToView().length === 0">
                             <center>
-                                <h1 style="margin-top:80%; max-width:300px;">No Vending Locations Found Near You</h1></center>
+                                <h1 style="color:#7a7a7a; margin-top:80%; max-width:300px;">No Vending Locations Found Near You</h1></center>
                         </div>
 
                         <div class='row'>
@@ -234,24 +234,18 @@ https://github.com/VendinGoGo/VendinGoGo
                                         Cancel Adding Location <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
                                     </button>
                                 </center>
-                                 Map 
-                                <div class="col-md-9" style="padding-left: 0px;padding-right: 0px; height: 100%">
-                                    <div id="map"></div>
-                                </div>
                             </div>
                         </div>
-                    </div>
-
-
+                    </div>  
                 </div>
-                <!-- Map -->
                 <div class="col-md-9" style="padding-left: 0px;padding-right: 0px; height: 100%">
                     <div id="map"></div>
                 </div>
-
             </div>
         </div>
 
+       
+       
         <!-- Modal -->
         <div class="modal fade" id="confirm-action" role="dialog">
             <div class="modal-dialog">
@@ -260,7 +254,7 @@ https://github.com/VendinGoGo/VendinGoGo
                 <div class="modal-content">
                     <div class="modal-header" style="padding:15px 30px;">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4><span class="modal-title"></span>Something went wrong!</h4>
+                        <h4><span class="modal-title"></span>Something went wrong.</h4>
                     </div>
 
                     <div class="modal-body" style="padding:50px 20px 2px;">
