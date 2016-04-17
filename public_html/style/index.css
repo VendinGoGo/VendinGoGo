@@ -31,6 +31,13 @@ body {
     color: #b8b8b8;
 }
 
+#brandIcon {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    margin-top: 20%;
+}
+
 #sidebar {
     border-right-width: 2px;
     border-right-style: solid;

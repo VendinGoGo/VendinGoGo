@@ -62,9 +62,12 @@ session_start();
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <ul class="nav navbar-nav navbar-center">
-                    <div class="navbar-brand">
+                    <li>
+                        <img id="brandIcon" src="ico/android-icon-192x192.png"/>
+                    </li>
+                    <li class="navbar-brand">
                         VendinGoGo
-                    </div>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <?php
@@ -230,7 +233,7 @@ session_start();
                                 <br/>
                                 <br/>
                                 <center>
-                                    <button class="btn btn-danger btn-lg" style="width:80%; padding: 4px 4px 4px 4px;" data-bind="click: switchToVendingMachineView">
+                                    <button class="btn btn-danger btn-lg" style="width:80%; padding: 4px;" data-bind="click: switchToVendingMachineView">
                                         Cancel Adding Location <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
                                     </button>
                                 </center>
