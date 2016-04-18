@@ -588,11 +588,11 @@ function getMapStyle(){
     
     var mapOptions =
         [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},
-        {"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#eff9ed"}]},
+        {"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#ebefeb"}]},
          {"featureType":"poi","elementType":"geometry","stylers":[{"color":"#cdecbc"}]}, 
         {"featureType":"road","elementType":"geometry","stylers":[{"saturation":-100},{"lightness":45}]},
         {"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"simplified"}]},
-        {"featureType":"water","elementType":"geometry","stylers":[{"color":"#46bcec"},{"visibility":"on"}]}];
+        {"featureType":"water","elementType":"geometry","stylers":[{"color":"#7ed3f5"},{"visibility":"on"}]}];
     
     var customMapType = new google.maps.StyledMapType(mapOptions);
     
