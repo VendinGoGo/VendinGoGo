@@ -93,6 +93,8 @@ function SidebarViewModel(){
      */
     self.getSmallLocationsToView = ko.computed(function(){
         
+        return [];
+        
         if(self.mainVendingMachine() === null || self.mainVendingMachine() === undefined){
             return self.smallLocationsLoaded();
         }

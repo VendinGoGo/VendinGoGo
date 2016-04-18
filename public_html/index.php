@@ -197,7 +197,7 @@ session_start();
 
                         <div data-bind="if: !shouldShowMainView() && getSmallLocationsToView().length === 0">
                             <center>
-                                <h1 style="color:#7a7a7a; margin-top:80%; max-width:300px;">No Vending Locations Found Near You</h1></center>
+                                <h1 style="color:#7a7a7a; margin-top:80%; max-width:300px;">Click a location on the map to view information</h1></center>
                         </div>
 
                         <div class='row'>
