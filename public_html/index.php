@@ -52,7 +52,7 @@ session_start();
         <link rel="manifest" href="ico/manifest.json">
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="ico/ms-icon-144x144.png">
-        <meta name="theme-color" content="#ffffff">
+        <meta name="theme-color" content="#21D466">
 
     </head>
 
