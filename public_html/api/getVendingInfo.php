@@ -1,7 +1,6 @@
 <?php
 
 include("connections.php");
-define('DB_NAME', getenv('DB_NAME'));
 
 $vId = filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
 
@@ -12,7 +11,7 @@ if ($vId !== null && $vId !== 0) {
 }
 
 function getVendingInfo($conn, $vendingId){
-    $stmt = $conn->prepare("SELECT loc.id, loc.lat, loc.lng, loc.numOfMachines, loc.howToFind, loc.submittedBy, usr.name FROM {$DB_NAME}.vendinglocation AS loc INNER JOIN {$DB_NAME}.users AS usr ON usr.id = loc.submittedBy WHERE loc.id = ?;");
+    $stmt = $conn->prepare("SELECT loc.id, loc.lat, loc.lng, loc.numOfMachines, loc.howToFind, loc.submittedBy, usr.name FROM vendinglocation AS loc INNER JOIN users AS usr ON usr.id = loc.submittedBy WHERE loc.id = ?;");
     $stmt->bind_param("i", $vendingId);
 
     if($stmt->execute()){
@@ -49,7 +48,7 @@ function getVendingInfo($conn, $vendingId){
 
 function getVendingStatus($conn, $id){
     
-    $stmt = $conn->prepare("SELECT stat.id, stat.date, stat.comment, usr.id, usr.name FROM {$DB_NAME}.statuses AS stat INNER JOIN {$DB_NAME}.users as usr 
+    $stmt = $conn->prepare("SELECT stat.id, stat.date, stat.comment, usr.id, usr.name FROM statuses AS stat INNER JOIN users as usr 
                             ON usr.id = stat.userId WHERE stat.vendingId = ? ORDER BY date DESC;");
     $stmt->bind_param("i", $id);
 

@@ -342,6 +342,8 @@ function SidebarViewModel(){
                     }
                 });
     };
+    
+    self.specificUserInfo = ko.observable(null);
 
 }
 
@@ -552,6 +554,7 @@ function addLocationToMap(locData){
 
 }
 
+
 function setMainVendingMachine(id){
     getVendingMachineInfo(id, function (err) {
         displayMessage("Unable to retrieve the requesting information for the vending machine");
@@ -664,6 +667,33 @@ function tryLoadingMachineFromURL(){
     if(id !== undefined && id !== null){
         setMainVendingMachine(parseInt(id));
     }
+    
+}
+
+
+/**
+ * Attempts to grab a user based on the userid passed in.
+ * If grabbing the information is succesful, then a modal pops up with the users information.
+ * 
+ * @param {type} userId
+ * @returns {undefined}
+ */
+function displayUserInfo(userId){
+    
+    if(userId === null || userId === undefined || parseInt(userId) === 0){
+        return;
+    }
+    
+    makeHttpRequest("api/getUserInfo.php?id="+userId, function(){
+        displayMessage("Unable to grab user information!");
+    }, function(data){
+        
+        console.log(data);
+        viewModel.specificUserInfo(data);
+        $("#display-user-model").modal();
+        ko.applyBindings(viewModel, document.getElementById("display-user-model"));
+
+    });
     
 }
 
