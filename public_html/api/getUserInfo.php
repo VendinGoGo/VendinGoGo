@@ -17,27 +17,70 @@ if ($uId !== null && $uId !== 0) {
     getUserInfo($conn, $uId);
 }
 
-function getUserInfo($conn, $id) {
-    $row = array();
 
+function getUserInfo($conn, $id) {
+
+    $stmt = $conn->prepare("SELECT id, name FROM users WHERE id = ?");
+
+    if($stmt === False){
+        return '{"result": "failure", "reason":"'.$conn->error.'"}';
+    }
+    
+    $stmt->bind_param("i", $id);
+    
+
+    if ($stmt->execute()) {
+
+        $stmt->bind_result($uid, $username);
+
+        $stmt->fetch();
+        $row['id'] = utf8_encode($uid);
+        $row['username'] = utf8_encode($username);
+        
+        $stmt->close();
+
+    } else {
+
+        $reason = $stmt->error;
+        $stmt->close();
+
+        return '{"result": "failure", "reason":"'.$reason.'"}';
+
+    }
+    
+    
     $row['locations'] = getUserLocations($conn, $id);
     $row['statuses'] = getUserStatuses($conn, $id);
 
     print json_encode($row);
 }
 
+
+/**
+ * Grabs all vending locations in which the user has submitted
+ * Returns an array if succesful.
+ * Retruns a json string if unseccesful.
+ * 
+ * @param type $conn mysqli connection
+ * @param type $id id of the user
+ * @return string || array
+ */
 function getUserLocations($conn, $id) {
 
     $stmt = $conn->prepare("SELECT id, lat, lng, numOfMachines, howToFind FROM vendinglocation WHERE submittedBy = ?");
+    
+    if($stmt === False){
+        return '{"result": "failure", "reason":"'.$conn->error.'"}';
+    }
+    
     $stmt->bind_param("i", $id);
 
+    
     if ($stmt->execute()) {
 
         $stmt->bind_result($id, $lat, $lng, $numOfMachines, $howToFind);
 
-
         $rows = array();
-
 
         /* fetch values */
         while ($stmt->fetch()) {
@@ -55,14 +98,28 @@ function getUserLocations($conn, $id) {
         $stmt->close();
 
         return $rows;
+        
+    } else {
+
+        $reason = $stmt->error;
+        $stmt->close();
+
+        return '{"result": "failure", "reason":"'.$reason.'"}';
+
     }
 
     return "None";
 }
 
+
 function getUserStatuses($conn, $id) {
 
     $stmt = $conn->prepare("select id, vendingId, comment, date FROM statuses WHERE userId = ?;");
+    
+    if($stmt === False){
+        return '{"result": "failure", "reason":"'.$conn->error.'"}';
+    }
+    
     $stmt->bind_param("i", $id);
 
     if ($stmt->execute()) {
@@ -88,6 +145,13 @@ function getUserStatuses($conn, $id) {
         $stmt->close();
 
         return $rows;
+    } else {
+
+        $reason = $stmt->error;
+        $stmt->close();
+
+        return '{"result": "failure", "reason":"'.$reason.'"}';
+
     }
 
     return "None";

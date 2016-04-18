@@ -9,23 +9,23 @@ ____   ____                 .___.__         ________         ________
 Brought to you by: Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
 https://github.com/VendinGoGo/VendinGoGo
 -->
-<?php 
+<?php
 session_start();
 
-	if(!isset($_SESSION['access_token'])) {
-		$accountName = "Sign In";
-		$profilePic = "https://pixabay.com/static/uploads/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
-	} else {
-		$accountName = $_SESSION['access_token']['screen_name'];
-		$profilePic = $_SESSION['tprofile_pic_url'];
-	}
-	
-	if(isset($_GET['LOGOUT'])){
-		session_destroy();
-		header('Location: ../../index.php');
-	}
+if (!isset($_SESSION['access_token'])) {
+    $accountName = "Sign In";
+    $profilePic = "https://pixabay.com/static/uploads/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
+} else {
+    $accountName = $_SESSION['access_token']['screen_name'];
+    $profilePic = $_SESSION['tprofile_pic_url'];
+}
+
+if (isset($_GET['LOGOUT'])) {
+    session_destroy();
+    header('Location: ../../index.php');
+}
 ?>
-    <html style="height:100%">
+<html style="height:100%">
 
     <head>
         <title>VendinGoGo</title>
@@ -67,11 +67,12 @@ session_start();
                         <img id="brandIcon" src="ico/android-icon-192x192.png"/>
                     </li>
                     <li class="navbar-brand">
-                        VendinGoGo
+                        VendinGoGo <span class="mobile-show">Heyyyyyy</span>
                     </li>
+                    
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    
+
                     <li>
                         <img id="profilePic" src="<?php echo $profilePic; ?>"/>
                     </li>
@@ -80,25 +81,24 @@ session_start();
                         echo '<li><a href="api/twitterLogin.php">Sign In via Twitter</a></li>';
                     } else {
                         echo '<li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">'. $accountName.'<span class="caret"></span></a>
-                            
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . $accountName . '<span class="caret"></span></a>
                             
                             <ul class="dropdown-menu">
-                                
-                                        <li class="add-button" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>
-                                        <li role="separator" class="divider"></li>
-                                        <li><a href="https://github.com/VendinGoGo/VendinGoGo" target="_blank">VendinGoGo Source Code</a></li>
-                                        <li><a href="https://twitter.com/VendinGoGo" target="_blank">VendinGoGo on Twitter</a></li>
-                                        <li role="separator" class="divider"></li>
-                                        <li><a><label for="mode"><input id="mode" type="checkbox">Dark Mode</label></a></li>
-                                        <li><a href="index.php?LOGOUT=true">Sign Out</a></li>
+
+                                <li class="add-button mobile-hide" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>
+                                <li class="add-button mobile-hide" onclick="displayUserInfo(\''.$_SESSION['access_token']['user_id'].'\')"><a href="#">View Account Info</a></li>
+                                <li role="separator" class="divider mobile-hide"></li>
+                                <li><a href="https://github.com/VendinGoGo/VendinGoGo" target="_blank">VendinGoGo Source Code</a></li>
+                                <li><a href="https://twitter.com/VendinGoGo" target="_blank">VendinGoGo on Twitter</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="index.php?LOGOUT=true">Sign Out</a></li>
+
                                     
-                                
                             </ul>
                         </li>';
                     }
                     ?>
-                    
+
                 </ul>
             </div>
         </nav>
@@ -108,7 +108,7 @@ session_start();
 
             <div class="row" style="height:100%">
 
-                <div class="col-md-3" id="sidebar" style='height:100%; max-height: 100%;overflow:auto;'>
+                <div class="mobile-hide col-sm-4 col-md-3" id="sidebar" style='height:100%; max-height: 100%;overflow:auto;'>
 
                     <br/>
                     <br/>
@@ -182,14 +182,14 @@ session_start();
                                         }
                                         ?>
 
-                                            <span class="label label-success">Number of Machines: <span data-bind="html: numOfMachines"></span></span>
-                                            <br>
-                                            <br>
-                                            <b>Submitted By:</b> <span data-bind="text: username"></span>
-                                            <div>
-                                                <h4>Share This Location</h4>
-                                                <input onclick="this.focus();this.select()" readonly="readonly" class="form-control" type="text" data-bind="value: $parent.getShareLink">
-                                            </div>
+                                        <span class="label label-success">Number of Machines: <span data-bind="html: numOfMachines"></span></span>
+                                        <br>
+                                        <br>
+                                        <b>Submitted By:</b> <span data-bind="text: username"></span>
+                                        <div>
+                                            <h4>Share This Location</h4>
+                                            <input onclick="this.focus();this.select()" readonly="readonly" class="form-control" type="text" data-bind="value: $parent.getShareLink">
+                                        </div>
 
                                     </div>
                                 </div>
@@ -253,16 +253,19 @@ session_start();
                             </div>
                         </div>
                     </div>  
+                    
                 </div>
-                <div class="col-md-9" style="padding-left: 0px;padding-right: 0px; height: 100%">
+
+                <div class="col-sm-8 col-md-9" style="padding-left: 0px;padding-right: 0px; height: 100%">
                     <div id="map"></div>
                 </div>
+
             </div>
         </div>
 
-       
-       
-        <!-- Modal -->
+
+
+        <!-- Display Error Modal -->
         <div class="modal fade" id="confirm-action" role="dialog">
             <div class="modal-dialog">
 
@@ -286,6 +289,64 @@ session_start();
             </div>
         </div>
 
+        <!-- Display User Info Modal -->
+        <div class="modal fade" id="display-user-model" role="dialog" data-bind="if:specificUserInfo ">
+            <div class="modal-dialog" data-bind="with: specificUserInfo">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-header" style="padding:15px 30px;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><span class="modal-title" data-bind="text: username"></span></h4>
+                    </div>
+
+                    <div class="modal-body" style="padding:10px;">
+
+                        <div class="row">
+
+                            <div class="col-sm-6">
+                                
+                                <h3>Submitted Locations</h3>
+                                
+                                <div data-bind="foreach: locations">
+                                    <div class="well well-sm">
+                                        <button>View Location</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-6">
+                                
+                                <h3>Submitted Statuses</h3>
+                                
+                                <div data-bind="foreach: statuses">
+                                    <div class="panel panel-default panel-success">
+
+                                        <div class="well well-sm">
+                                        <button>View Location</button>
+                                    </div>
+                                        
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <a class="btn btn-success btn-ok" data-dismiss="modal">Close</a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
         <!--Libraries-->
         <script src="js/libs/knockout/knockout-3.4.0.js"></script>
         <script src='js/libs/markerclusterer_compiled.js'></script>
@@ -301,4 +362,4 @@ session_start();
 
     </body>
 
-    </html>
+</html>

@@ -373,6 +373,8 @@ function SidebarViewModel(){
                     }
                 });
     };
+    
+    self.specificUserInfo = ko.observable(null);
 
 }
 
@@ -583,6 +585,7 @@ function addLocationToMap(locData){
 
 }
 
+
 function setMainVendingMachine(id){
     getVendingMachineInfo(id, function (err) {
         displayMessage("Unable to retrieve the requesting information for the vending machine");
@@ -619,11 +622,11 @@ function getMapStyle(){
     
     var mapOptions =
         [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},
-        {"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#eff9ed"}]},
+        {"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#ebefeb"}]},
          {"featureType":"poi","elementType":"geometry","stylers":[{"color":"#cdecbc"}]}, 
         {"featureType":"road","elementType":"geometry","stylers":[{"saturation":-100},{"lightness":45}]},
         {"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"simplified"}]},
-        {"featureType":"water","elementType":"geometry","stylers":[{"color":"#46bcec"},{"visibility":"on"}]}];
+        {"featureType":"water","elementType":"geometry","stylers":[{"color":"#7ed3f5"},{"visibility":"on"}]}];
     
     var customMapType = new google.maps.StyledMapType(mapOptions);
     
@@ -695,6 +698,33 @@ function tryLoadingMachineFromURL(){
     if(id !== undefined && id !== null){
         setMainVendingMachine(parseInt(id));
     }
+    
+}
+
+
+/**
+ * Attempts to grab a user based on the userid passed in.
+ * If grabbing the information is succesful, then a modal pops up with the users information.
+ * 
+ * @param {type} userId
+ * @returns {undefined}
+ */
+function displayUserInfo(userId){
+    
+    if(userId === null || userId === undefined || parseInt(userId) === 0){
+        return;
+    }
+    
+    makeHttpRequest("api/getUserInfo.php?id="+userId, function(){
+        displayMessage("Unable to grab user information!");
+    }, function(data){
+        
+        console.log(data);
+        viewModel.specificUserInfo(data);
+        $("#display-user-model").modal();
+        ko.applyBindings(viewModel, document.getElementById("display-user-model"));
+
+    });
     
 }
 
