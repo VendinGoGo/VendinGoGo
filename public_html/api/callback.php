@@ -29,7 +29,7 @@ if (isset($_REQUEST['oauth_verifier'], $_REQUEST['oauth_token']) && $_REQUEST['o
     $user = $connection->get("account/verify_credentials");
     
     //Get user profile pic
-    $tprofile_pic_url = $user->profile_image_url;
+    $tprofile_pic_url = $user->profile_image_url_https;
     $_SESSION['tprofile_pic_url'] = $tprofile_pic_url;   
 	
     //Add user to databse
