@@ -27,10 +27,12 @@ body {
     box-shadow: none;
     drop-shadow: none;
     border: none;
+    background-color: #fafffe;
+    margin-left: -6px;
+    margin-right: -6px;
 }
 
 .panel-body {
-    background-color: #fafffe;
     color: #525252;
 }
 
@@ -80,6 +82,14 @@ body {
     height: 100%;
     min-height: 110px;
     position: relative;
+}
+
+@media screen and (min-width: 0px) and (max-width: 720px) {
+    .mobile-hide{ display: none; }
+}
+
+@media screen and (min-width: 720px)  {
+    .mobile-show{ display: block;}
 }
 
 .small-vending-loc {
