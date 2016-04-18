@@ -7,10 +7,6 @@ nav.navbar-inverse.navbar-fixed-top.dark-mode {
     border-color: inherit;
 }
 
-button.dark-mode {
-    -webkit-filter: invert(1);
-}
-
 .navbar-brand.dark-mode {
     -webkit-filter: invert(1);
 }
@@ -19,14 +15,6 @@ button.dark-mode {
     -webkit-filter: invert(1);
 }
 
-.label.label-success.dark-mode {
-    -webkit-filter: invert(1);
-}
-
 #profilePic.dark-mode {
-    -webkit-filter: invert(1);
-}
-
-#brandIcon.dark-mode {
     -webkit-filter: invert(1);
 }

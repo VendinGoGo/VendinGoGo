@@ -18,6 +18,7 @@ if (!isset($_SESSION['access_token'])) {
 } else {
     $accountName = $_SESSION['access_token']['screen_name'];
     $profilePic = $_SESSION['tprofile_pic_url'];
+    $_SESSION['en_dk_mode'] = True;
 }
 
 if (isset($_GET['LOGOUT'])) {
@@ -67,7 +68,7 @@ if (isset($_GET['LOGOUT'])) {
                         <img id="brandIcon" src="ico/android-icon-192x192.png"/>
                     </li>
                     <li class="navbar-brand">
-                        VendinGoGo <span class="mobile-show">Heyyyyyy</span>
+                        VendinGoGo
                     </li>
                     
                 </ul>
@@ -91,9 +92,8 @@ if (isset($_GET['LOGOUT'])) {
                                 <li><a href="https://github.com/VendinGoGo/VendinGoGo" target="_blank">VendinGoGo Source Code</a></li>
                                 <li><a href="https://twitter.com/VendinGoGo" target="_blank">VendinGoGo on Twitter</a></li>
                                 <li role="separator" class="divider"></li>
+                                <li><a><label for="mode"><input type="checkbox" id="mode"> Dark Mode </label></a></li>
                                 <li><a href="index.php?LOGOUT=true">Sign Out</a></li>
-
-                                    
                             </ul>
                         </li>';
                     }
@@ -174,7 +174,7 @@ if (isset($_GET['LOGOUT'])) {
                                             echo '<div>
                                             <h4>Leave Comment:</h4>
                                             <textarea class="form-control" style="resize: vertical; " data-bind="value: $parent.newCommentText"></textarea>
-                                            <button class="btn btn-success" data-bind="click: $parent.leaveComment" style="margin-top: 5px;">Post</button>
+                                            <button class="btn btn-success dark-mode" data-bind="click: $parent.leaveComment" style="margin-top: 5px;">Post</button>
                                             <br/><br/>
                                         </div>';
                                         } else {
