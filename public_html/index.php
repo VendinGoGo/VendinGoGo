@@ -35,6 +35,7 @@ session_start();
         <!--Load Style Sheets-->
         <link href="js/libs/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="style/index.css" rel="stylesheet">
+        <link href="style/index-darkmode.css" rel="stylesheet">
 
         <link rel="apple-touch-icon" sizes="57x57" href="ico/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="ico/apple-icon-60x60.png">
@@ -56,7 +57,7 @@ session_start();
 
     </head>
 
-    <body style="height:100%">
+    <body style="height:100%" >
 
         <!--Navbar-->
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -89,6 +90,7 @@ session_start();
                                         <li><a href="https://github.com/VendinGoGo/VendinGoGo" target="_blank">VendinGoGo Source Code</a></li>
                                         <li><a href="https://twitter.com/VendinGoGo" target="_blank">VendinGoGo on Twitter</a></li>
                                         <li role="separator" class="divider"></li>
+                                        <li><a><label for="mode"><input id="mode" type="checkbox">Dark Mode</label></a></li>
                                         <li><a href="index.php?LOGOUT=true">Sign Out</a></li>
                                     
                                 
@@ -197,7 +199,8 @@ session_start();
 
                         <div data-bind="if: !shouldShowMainView() && getSmallLocationsToView().length === 0">
                             <center>
-                                <h1 style="color:#7a7a7a; margin-top:80%; max-width:300px;">Click a location on the map to view information</h1></center>
+                                <h1 style="color:#7a7a7a; margin-top:80%; max-width:300px;">Click a location on the map to view information</h1>
+                            </center>
                         </div>
 
                         <div class='row'>
@@ -291,6 +294,7 @@ session_start();
 
         <!--our code-->
         <script src="js/src/maps.js"></script>
+        <script src="js/src/darkmode.js"></script>
 
         <!--Make sure this  is loaded after map is so it doesn't try calling init before init is loaded onto the page-->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKdjL4G5gfdxhuqxVQTzVNmIUL7bE5-tE&callback=initMap" async defer></script>
