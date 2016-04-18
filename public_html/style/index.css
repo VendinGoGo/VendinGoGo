@@ -18,6 +18,7 @@ body {
 }
 
 #sidebar {
+    background-color: #f2f5f1;
     border-right-width: 2px;
     border-right-style: solid;
     border-color: #d4d4d4;
