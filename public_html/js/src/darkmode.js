@@ -1,4 +1,4 @@
-$('#mode').change(function() {
+checkDarkMode = function() {
     if($(this).prop('checked'))
     {
         $('body').addClass('dark-mode');
@@ -24,4 +24,5 @@ $('#mode').change(function() {
         $('#brandIcon').removeClass('dark-mode');
     }
 
-});
+}
+$('#mode').change(checkDarkMode());

@@ -294,7 +294,7 @@ session_start();
 
         <!--our code-->
         <script src="js/src/maps.js"></script>
-        <script src="js/src/darkmode.js"></script>
+        <!--<script src="js/src/darkmode.js"></script>-->
 
         <!--Make sure this  is loaded after map is so it doesn't try calling init before init is loaded onto the page-->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKdjL4G5gfdxhuqxVQTzVNmIUL7bE5-tE&callback=initMap" async defer></script>
