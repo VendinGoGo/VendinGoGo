@@ -1,4 +1,4 @@
-/* 
+/*
 Created on : Mar 31, 2016, 9:05:26 PM
 Author     : Eli Davis
 */
@@ -81,11 +81,60 @@ body {
     position: relative;
 }
 
-@media screen and (min-width: 0px) and (max-width: 720px) {
+@media screen and (min-width: 0px) and (max-width: 767px) {
+    /*Mobile Device*/
+    /*Eli*/
     .mobile-hide{ display: none; }
+
+    /*Josh*/
+    /*Hide "VendinGoGo Logo Text"*/
+    nav div ul li.navbar-brand {
+        display: none;
+    }
+
+    /*Position left section of navbar*/
+    ul.navbar-center {
+        float: left;
+        width: 120px;
+        margin-top: .5em;
+        margin-left: 0em;
+        margin-bottom:.5em;
+    }
+
+    /*Position right section of navbar*/
+    ul.navbar-right {
+        float: right;
+        margin-top: .5em;
+        margin-right: 0em;
+        margin-bottom:.5em;
+        width: 33%;
+        min-width: 200px;
+        text-align: right;
+    }
+
+    /*Size of logo image*/
+    ul.navbar-center li {
+        width: 60px;
+    }
+
+    /*Correct text align for children in drop-down*/
+    ul.navbar-right li {
+        text-align: right;
+    }
+
+    /*Re-align profilePic and dropdown text*/
+    ul.navbar-right li.dropdown {
+        position: relative;
+        margin-top: .3em;
+    }
+
+    /*Position profilePic*/
+    #profilePic {
+        float: right;
+    }
 }
 
-@media screen and (min-width: 720px)  {
+@media screen and (min-width: 768px)  {
     .mobile-show{ display: block;}
 }
 
