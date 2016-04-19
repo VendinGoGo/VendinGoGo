@@ -1,0 +1,20 @@
+body.dark-mode { 
+    -webkit-filter: invert(1);
+}
+
+nav.navbar-inverse.navbar-fixed-top.dark-mode {
+    background-color: inherit;
+    border-color: inherit;
+}
+
+.navbar-brand.dark-mode {
+    -webkit-filter: invert(1);
+}
+
+.dropdown-toggle.dark-mode {
+    -webkit-filter: invert(1);
+}
+
+#profilePic.dark-mode {
+    -webkit-filter: invert(1);
+}

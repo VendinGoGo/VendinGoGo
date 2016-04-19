@@ -18,6 +18,7 @@ if (!isset($_SESSION['access_token'])) {
 } else {
     $accountName = $_SESSION['access_token']['screen_name'];
     $profilePic = $_SESSION['tprofile_pic_url'];
+    $_SESSION['en_dk_mode'] = True;
 }
 
 if (isset($_GET['LOGOUT'])) {
@@ -35,6 +36,7 @@ if (isset($_GET['LOGOUT'])) {
         <!--Load Style Sheets-->
         <link href="js/libs/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="style/index.css" rel="stylesheet">
+        <link href="style/index-darkmode.css" rel="stylesheet">
 
         <link rel="apple-touch-icon" sizes="57x57" href="ico/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="ico/apple-icon-60x60.png">
@@ -56,7 +58,7 @@ if (isset($_GET['LOGOUT'])) {
 
     </head>
 
-    <body style="height:100%">
+    <body style="height:100%" >
 
         <!--Navbar-->
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -91,15 +93,15 @@ if (isset($_GET['LOGOUT'])) {
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . $accountName . '<span class="caret"></span></a>
                             
                             <ul class="dropdown-menu">
-                                
+
                                 <li class="add-button mobile-hide" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>
                                 <li class="add-button mobile-hide" onclick="displayUserInfo(\'' . $_SESSION['access_token']['user_id'] . '\')"><a href="#">View Account Info</a></li>
                                 <li role="separator" class="divider mobile-hide"></li>
                                 <li><a href="https://github.com/VendinGoGo/VendinGoGo" target="_blank">VendinGoGo Source Code</a></li>
                                 <li><a href="https://twitter.com/VendinGoGo" target="_blank">VendinGoGo on Twitter</a></li>
                                 <li role="separator" class="divider"></li>
+                                <li><a><label for="mode"><input type="checkbox" id="mode"> Dark Mode </label></a></li>
                                 <li><a href="index.php?LOGOUT=true">Sign Out</a></li>
-                                    
                             </ul>
                         </li>';
                     }
@@ -160,6 +162,7 @@ if (isset($_GET['LOGOUT'])) {
                                             <textarea class="form-control" style="resize: vertical; " data-bind="value: $parent.newCommentText, valueUpdate: \'afterkeydown\'"></textarea>
                                             <span data-bind="text: 160 - $parent.newCommentText().length"></span> characters left.<br>
                                             <button class="btn btn-success" data-bind="click: $parent.leaveComment" style="margin-top: 5px;">Post</button>
+
                                             <br/><br/>
                                         </div>';
                                         } else {
@@ -184,7 +187,8 @@ if (isset($_GET['LOGOUT'])) {
 
                         <div data-bind="if: !shouldShowMainView() && getSmallLocationsToView().length === 0">
                             <center>
-                                <h1 style="color:#7a7a7a; margin-top:80%; max-width:300px;">Click a location on the map to view information</h1></center>
+                                <h1 style="color:#7a7a7a; margin-top:80%; max-width:300px;">Click a location on the map to view information</h1>
+                            </center>
                         </div>
 
                         <div class='row'>
@@ -360,6 +364,7 @@ if (isset($_GET['LOGOUT'])) {
 
         <!--our code-->
         <script src="js/src/maps.js"></script>
+        <!--<script src="js/src/darkmode.js"></script>-->
 
         <!--Make sure this  is loaded after map is so it doesn't try calling init before init is loaded onto the page-->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKdjL4G5gfdxhuqxVQTzVNmIUL7bE5-tE&callback=initMap" async defer></script>
