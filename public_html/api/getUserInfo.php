@@ -20,7 +20,7 @@ if ($uId !== null && $uId !== 0) {
 
 function getUserInfo($conn, $id) {
 
-    $stmt = $conn->prepare("SELECT id, name FROM users WHERE id = ?");
+    $stmt = $conn->prepare("SELECT id, name, signup FROM users WHERE id = ?");
 
     if($stmt === False){
         return '{"result": "failure", "reason":"'.$conn->error.'"}';
@@ -31,11 +31,12 @@ function getUserInfo($conn, $id) {
 
     if ($stmt->execute()) {
 
-        $stmt->bind_result($uid, $username);
+        $stmt->bind_result($uid, $username, $signup);
 
         $stmt->fetch();
         $row['id'] = utf8_encode($uid);
         $row['username'] = utf8_encode($username);
+        $row['signup'] = utf8_encode($signup);
         
         $stmt->close();
 
