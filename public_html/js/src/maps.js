@@ -10,60 +10,6 @@ ____   ____                 .___.__         ________         ________
  * github.com/EliCDavis
  */
 
-
-/* Eli is going to hate me for this*/
-/* This is for the darkmode */
-document.onclick = $('#mode').change(function() {
-    if($(this).prop('checked'))
-    {
-        map.setMapTypeId("mapDark");
-
-        $('body').addClass('dark-mode');
-        $('nav').addClass('dark-mode');
-        $('.btn').addClass('dark-mode');
-        $('.navbar-brand').addClass('dark-mode');
-        $('.dropdown-toggle').addClass('dark-mode');
-        $('.label').addClass('dark-mode');
-        $('.label-success').addClass('dark-mode');
-        $('#profilePic').addClass('dark-mode');
-        $('#brandIcon').addClass('dark-mode');
-        $('#sidebar').addClass('dark-mode');
-        $('.panel').addClass('dark-mode');
-        $('.panel-body').addClass('dark-mode');
-        $('.modal').addClass('dark-mode');
-        $('.modal-content').addClass('dark-mode');
-        $('.well').addClass('dark-mode');
-
-
-        console.log("Dark mode map")
-    }
-    else
-    {
-        map.setMapTypeId("mapLight");
-
-        $('body').removeClass('dark-mode');
-        $('nav').removeClass('dark-mode');
-        $('.btn').removeClass('dark-mode');
-        $('.navbar-brand').removeClass('dark-mode');
-        $('.dropdown-toggle').removeClass('dark-mode');
-        $('.label').removeClass('dark-mode');
-        $('.label-success').removeClass('dark-mode');
-        $('#profilePic').removeClass('dark-mode');
-        $('#brandIcon').removeClass('dark-mode');
-        $('.panel').removeClass('dark-mode');
-        $('.panel-body').removeClass('dark-mode');
-        $('#sidebar').removeClass('dark-mode');
-        $('.modal').removeClass('dark-mode');
-        $('.modal-content').removeClass('dark-mode');
-        $('.well').removeClass('dark-mode');
-
-        
-        console.log("Light mode map")
-    }
-
-});
-
-
 /**
  * Knockout View Model meant to be bound to the page to control
  * what is displayed on the sidebar
@@ -465,6 +411,7 @@ function initMap() {
     // Create a map object and specify the DOM element for display.
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 33.4540 , lng: -88.7890},
+        streetViewControl: false,
         scrollwheel: true,
         zoom: 12
     });
@@ -475,9 +422,12 @@ function initMap() {
     });
 
     // Set the style of the map
-    map.mapTypes.set('mapLight', getMapStyle());
-    map.mapTypes.set('mapDark', getMapStyleDark());
-    map.setMapTypeId("mapLight");
+    var style = getMapStyle();
+    map.mapTypes.set('mappp', style);
+    map.setMapTypeId("mappp");
+    // map.mapTypes.set('mapLight', getMapStyle());
+    // //map.mapTypes.set('mapDark', getMapStyleDark());
+    // map.setMapTypeId("mapLight");
 
     // Create a marker cluster for preventing a plethura of icons in the view
     markerCluster = new MarkerClusterer(map, []);
@@ -664,22 +614,22 @@ function getMapStyle(){
     
 }
 
-function getMapStyleDark(){
-
-    var mapOptions =
-        [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#1d1d1d"}]},
-         {"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#0c2434"}]},
-         {"featureType":"poi","elementType":"geometry","stylers":[{"color":"#4E3A24"}]}, 
-         {"featureType":"transit","elementType":"geometry","stylers":[{"color":"#888681"}]}, 
-         {"featureType":"road","elementType":"geometry","stylers":[{"saturation":-100},{"lightness":5},{"color":"#7b7b7b"}]},
-         {"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"simplified"},{"saturation":-100},{"lightness":10},{"color":"#535353"}]},
-         {"featureType":"water","elementType":"geometry","stylers":[{"color":"#3c6d80"},{"visibility":"on"}]}];
-
-    var customMapType = new google.maps.StyledMapType(mapOptions);
-
-    return customMapType;
-
-}
+// function getMapStyleDark(){
+//
+//     var mapOptions =
+//         [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#1d1d1d"}]},
+//          {"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#0c2434"}]},
+//          {"featureType":"poi","elementType":"geometry","stylers":[{"color":"#4E3A24"}]},
+//          {"featureType":"transit","elementType":"geometry","stylers":[{"color":"#888681"}]},
+//          {"featureType":"road","elementType":"geometry","stylers":[{"saturation":-100},{"lightness":5},{"color":"#7b7b7b"}]},
+//          {"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"simplified"},{"saturation":-100},{"lightness":10},{"color":"#535353"}]},
+//          {"featureType":"water","elementType":"geometry","stylers":[{"color":"#3c6d80"},{"visibility":"on"}]}];
+//
+//     var customMapType = new google.maps.StyledMapType(mapOptions);
+//
+//     return customMapType;
+//
+// }
 
 
 /**

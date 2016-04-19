@@ -18,7 +18,6 @@ if (!isset($_SESSION['access_token'])) {
 } else {
     $accountName = $_SESSION['access_token']['screen_name'];
     $profilePic = $_SESSION['tprofile_pic_url'];
-    $_SESSION['en_dk_mode'] = True;
 }
 
 if (isset($_GET['LOGOUT'])) {
@@ -69,9 +68,9 @@ if (isset($_GET['LOGOUT'])) {
                         <img id="brandIcon" src="ico/android-icon-192x192.png"/>
                     </li>
 
-                    <li class="navbar-brand">
-                        VendinGoGo 
-                    </li>
+                    <a href="#" class="navbar-brand" role="button" onclick="">
+                        VendinGoGo
+                    </a>
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -86,6 +85,7 @@ if (isset($_GET['LOGOUT'])) {
                             
                             <ul class="dropdown-menu">
                                 <li><a href="api/twitterLogin.php">Sign In via Twitter</a></li>
+                                <li><a><label for="mode"><input type="checkbox" id="mode"> Dark Mode </label></a></li>
                             </ul>
                             </li>';
                     } else {
@@ -363,7 +363,7 @@ if (isset($_GET['LOGOUT'])) {
 
         <!--our code-->
         <script src="js/src/maps.js"></script>
-        <!--<script src="js/src/darkmode.js"></script>-->
+        <script src="js/src/darkmode.js"></script>
 
         <!--Make sure this  is loaded after map is so it doesn't try calling init before init is loaded onto the page-->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKdjL4G5gfdxhuqxVQTzVNmIUL7bE5-tE&callback=initMap" async defer></script>
