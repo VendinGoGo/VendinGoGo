@@ -78,6 +78,11 @@ body {
     position: relative;
 }
 
+.modal {
+    /* ... */
+    overflow-y: scroll;
+}
+
 .small-vending-loc {
     width:100%;
     margin-bottom: 10px;
