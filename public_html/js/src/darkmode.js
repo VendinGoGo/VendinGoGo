@@ -10,6 +10,12 @@ checkDarkMode = function() {
         $('.label-success').addClass('dark-mode');
         $('#profilePic').addClass('dark-mode');
         $('#brandIcon').addClass('dark-mode');
+        $('.panel').addClass('dark-mode');
+        $('.panel-body').addClass('dark-mode');
+
+        getMapStyleDark();
+        console.log("Dark mode js")
+
     }
     else
     {
@@ -22,6 +28,12 @@ checkDarkMode = function() {
         $('.label-success').removeClass('dark-mode');
         $('#profilePic').removeClass('dark-mode');
         $('#brandIcon').removeClass('dark-mode');
+        $('.panel').removeClass('dark-mode');
+        $('.panel-body').removeClass('dark-mode');
+
+        getMapStyle();
+        console.log("Light mode js")
+
     }
 
 }
