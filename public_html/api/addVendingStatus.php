@@ -24,7 +24,7 @@ $stmt->bind_param("iis", $_SESSION['access_token']['user_id'], $id, $comment);
 $dib = $stmt->execute();
 
 if (!$dib) {
-    die('{"result": "failure"}');
+    die('{"result": "failure", "reason":"'.$stmt->error.'" }');
 } else {
     
     echo '{"result": "success"}';

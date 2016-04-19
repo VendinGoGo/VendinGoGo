@@ -64,22 +64,30 @@ if (isset($_GET['LOGOUT'])) {
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <ul class="nav navbar-nav navbar-center">
+
                     <li>
                         <img id="brandIcon" src="ico/android-icon-192x192.png"/>
                     </li>
+
                     <li class="navbar-brand">
-                        VendinGoGo
+                        VendinGoGo 
                     </li>
-                    
+
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 
                     <li>
-                        <img id="profilePic" src="<?php echo $profilePic; ?>"/>
+                        <img id="profilePic"  style="margin-right: 5%;"src="<?php echo $profilePic; ?>"/>
                     </li>
                     <?php
                     if (!isset($_SESSION['access_token'])) {
-                        echo '<li><a href="api/twitterLogin.php">Sign In via Twitter</a></li>';
+                        echo '<li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Options/Sign In<span class="caret"></span></a>
+                            
+                            <ul class="dropdown-menu">
+                                <li><a href="api/twitterLogin.php">Sign In via Twitter</a></li>
+                            </ul>
+                            </li>';
                     } else {
                         echo '<li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . $accountName . '<span class="caret"></span></a>
@@ -87,9 +95,9 @@ if (isset($_GET['LOGOUT'])) {
                             <ul class="dropdown-menu">
 
                                 <li class="add-button mobile-hide" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>
-                                <li class="add-button mobile-hide" onclick="displayUserInfo(\''.$_SESSION['access_token']['user_id'].'\')"><a href="#">View Account Info</a></li>
+                                <li class="add-button mobile-hide" onclick="displayUserInfo(\'' . $_SESSION['access_token']['user_id'] . '\')"><a href="#">View Account Info</a></li>
                                 <li role="separator" class="divider mobile-hide"></li>
-                                <li><a href="https://github.com/VendinGoGo/VendinGoGo" target="_blank">VendinGoGo Source Code</a></li>
+                                <li><a href="https://github.com/VendinGoGo" target="_blank">VendinGoGo on GitHub</a></li>
                                 <li><a href="https://twitter.com/VendinGoGo" target="_blank">VendinGoGo on Twitter</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a><label for="mode"><input type="checkbox" id="mode"> Dark Mode </label></a></li>
@@ -122,17 +130,8 @@ if (isset($_GET['LOGOUT'])) {
                                 <div class="panel-body">
                                     <div data-bind="with: mainVendingMachine">
 
-                                        <!--                                       
-                                        <div class="progress" style="width:100%">
-                                        
-                                            <div class="progress-bar progress-bar-success" data-bind="style:{ width: (ups/(ups+downs))*100+'%'}" ></div>
-                                            <div class="progress-bar progress-bar-danger" data-bind="style:{ width: (downs/(ups+downs))*100+'%'}" ></div>
-                                        
-                                            </div>
-                                        -->
-
                                         <h4>How To Find:</h4>
-                                        <p data-bind="text: $parent.getHowToFind"></p>
+                                        <p style="word-wrap: break-word;" data-bind="text: $parent.getHowToFind"></p>
 
                                         <br/>
 
@@ -142,27 +141,14 @@ if (isset($_GET['LOGOUT'])) {
                                             <div data-bind="foreach: statuses">
                                                 <div class="well well-sm" role="alert" style="padding:8px;margin-bottom: 10px">
 
-                                                    <div class="row">
-                                                        <div class="col-xs-8 col-sm-9">
-                                                            <span data-bind="text: comment"></span>
-                                                            <br/>
-                                                            <br/>
-                                                            <span data-bind="if: username">
-                                                                <b>Submitted By:</b> <span data-bind="text: username"></span>
-                                                            </span><br/>
-                                                            <span class="label label-default" data-bind="text: date" style="margin-top: 15px;"></span>
-                                                        </div>
-                                                        <div class="col-xs-4 col-sm-3">
-                                                            <center>
-                                                                <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-                                                                <br/> 180
-
-                                                                <br/>
-                                                                <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-
-                                                            </center>
-                                                        </div>
-                                                    </div>
+                                                    <span style="word-wrap: break-word;" data-bind="text: comment"></span>
+                                                    <br/>
+                                                    <br/>
+                                                    <span data-bind="if: username">
+                                                        <b>Submitted By:</b> <a data-bind="text: username, click: function(){$parents[1].displyUserInfo(userId)}" href="#"></a>
+                                                    </span><br/>
+                                                    <span class="label label-default" data-bind="text: date" style="margin-top: 15px;"></span>
+                                                    
                                                 </div>
 
                                             </div>
@@ -173,19 +159,26 @@ if (isset($_GET['LOGOUT'])) {
                                         if (isset($_SESSION['access_token'])) {
                                             echo '<div>
                                             <h4>Leave Comment:</h4>
+<<<<<<< HEAD
                                             <textarea class="form-control" style="resize: vertical; " data-bind="value: $parent.newCommentText"></textarea>
                                             <button class="btn btn-success" data-bind="click: $parent.leaveComment" style="margin-top: 5px;">Post</button>
+=======
+                                            <textarea class="form-control" style="resize: vertical; " data-bind="value: $parent.newCommentText, valueUpdate: \'afterkeydown\'"></textarea>
+                                            <span data-bind="text: 160 - $parent.newCommentText().length"></span> characters left.<br>
+                                            <button class="btn btn-success" data-bind="click: $parent.leaveComment" style="margin-top: 5px;">Post</button>
+
+>>>>>>> master
                                             <br/><br/>
                                         </div>';
                                         } else {
-                                            echo '<h4>Log in to leave a comment.</h4>';
+                                            echo '<h4>Sign in to leave a comment.</h4>';
                                         }
                                         ?>
 
                                         <span class="label label-success">Number of Machines: <span data-bind="html: numOfMachines"></span></span>
                                         <br>
                                         <br>
-                                        <b>Submitted By:</b> <span data-bind="text: username"></span>
+                                        <b>Submitted By:</b> <a data-bind="text: username, click: function(){$parent.displyUserInfo(userId)}" href="#"></a>
                                         <div>
                                             <h4>Share This Location</h4>
                                             <input onclick="this.focus();this.select()" readonly="readonly" class="form-control" type="text" data-bind="value: $parent.getShareLink">
@@ -253,7 +246,7 @@ if (isset($_GET['LOGOUT'])) {
                             </div>
                         </div>
                     </div>  
-                    
+
                 </div>
 
                 <div class="col-sm-8 col-md-9" style="padding-left: 0px;padding-right: 0px; height: 100%">
@@ -290,56 +283,77 @@ if (isset($_GET['LOGOUT'])) {
         </div>
 
         <!-- Display User Info Modal -->
-        <div class="modal fade" id="display-user-model" role="dialog" data-bind="if:specificUserInfo ">
+        <div class="modal fade" id="display-user-model" role="dialog" data-bind="if:specificUserInfo" style="height: 100%" >
             <div class="modal-dialog" data-bind="with: specificUserInfo">
 
                 <!-- Modal content-->
-                <div class="modal-content">
+                <div class="modal-content" style="height:100%">
 
-                    <div class="modal-header" style="padding:15px 30px;">
+                    <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4><span class="modal-title" data-bind="text: username"></span></h4>
+                        <h2><span class="modal-title" data-bind="text: username"></span><br/><small> Signed Up: <span data-bind="text: signup"></span></small></h2>
                     </div>
 
-                    <div class="modal-body" style="padding:10px;">
+                    <div class="modal-body" style="height:30%;overflow: auto;">
 
-                        <div class="row">
+                        <div class="container-fluid">
 
-                            <div class="col-sm-6">
-                                
-                                <h3>Submitted Locations</h3>
-                                
-                                <div data-bind="foreach: locations">
-                                    <div class="well well-sm">
-                                        <button>View Location</button>
-                                    </div>
-                                </div>
+                            <div class="row">
 
-                            </div>
+                                <div class="col-sm-6">
 
-                            <div class="col-sm-6">
-                                
-                                <h3>Submitted Statuses</h3>
-                                
-                                <div data-bind="foreach: statuses">
-                                    <div class="panel panel-default panel-success">
+                                    <h3>Submitted Locations</h3>
 
+                                    <div data-bind="foreach: locations">
                                         <div class="well well-sm">
-                                        <button>View Location</button>
+
+                                            <h4>How To Find:</h4>
+
+                                            <span data-bind="if: howToFind===''">
+                                                <p><b>No Info :(</b></p>
+                                            </span>
+
+                                            <span data-bind="if: howToFind!==''">
+                                                <p style="word-wrap: break-word;" data-bind="text:howToFind"></p>
+                                            </span>
+
+                                            <h5>Machines: <span data-bind="text: numOfMachines"></span></h5>
+
+                                            <button class="btn btn-default" data-bind="click: function(){$parents[1].viewLoc(id);}">View Location</button>
+
+                                        </div>
                                     </div>
-                                        
-                                    </div>
+
                                 </div>
-                                
+
+                                <div class="col-sm-6">
+
+                                    <h3>Submitted Statuses</h3>
+
+                                    <div data-bind="foreach: statuses">
+                                        <div class="well well-sm">
+
+                                            <h4>Status:</h4>
+
+                                            <p style="word-wrap: break-word;" data-bind="text:comment"></p>
+
+                                            <span class="label label-default" data-bind="text: date" style="margin-top: 15px;"></span>
+
+                                            <button class="btn btn-default" data-bind="click: function(){$parents[1].viewLoc(vendId);}">View Location</button>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
                             </div>
-
-
                         </div>
 
                     </div>
 
                     <div class="modal-footer">
-                        <a class="btn btn-success btn-ok" data-dismiss="modal">Close</a>
+                        <a class="btn btn-danger btn-ok" data-dismiss="modal">Close</a>
                     </div>
 
                 </div>

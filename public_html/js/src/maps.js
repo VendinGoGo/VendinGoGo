@@ -227,6 +227,29 @@ function SidebarViewModel(){
     };
     
     
+    
+    self.viewLoc = function(id){
+        
+        getVendingMachineInfo(id, function(){}, function(data){
+            
+            console.log(id, data);
+
+            self.setMainVendingMachineView(data);
+            
+            self.switchToVendingMachineView();
+            
+            $("#display-user-model").modal('hide');
+
+            map.panTo( {
+                "lat": parseFloat(data.lat),
+                "lng": parseFloat(data.lng)
+            });
+            
+        });
+        
+    };
+    
+    
     /**
      * Computed string that returns the how to find details of the main vending
      * machine, if they exhist.
@@ -388,12 +411,16 @@ function SidebarViewModel(){
                         self.newCommentText("");
                     } else if (data.result === "failure") {
                         console.log("Unable to add the status");
-                        displayMessage("Unable to create the status!")
+                        displayMessage("Unable to create the status!\n"+data.reason);
                     }
                 });
     };
     
     self.specificUserInfo = ko.observable(null);
+
+    self.displyUserInfo = function(id){
+        displayUserInfo(id);
+    };
 
 }
 
@@ -490,8 +517,6 @@ function displayVedingLocations() {
         }
     });
 
-
-
 }
 
 
@@ -544,24 +569,6 @@ function addLocationToMap(locData){
         }
     }
     
-    
-//    // Create some html to be written in an infowindow when mousing over a vending machine
-//    var contentString = "<h4 style='text-align: center'>Out of "+(parseInt(locData.ups)+parseInt(locData.downs))+" votes</h4>";
-//
-//    var likePercentage = parseInt((parseInt(locData.ups) / (parseInt(locData.ups) + parseInt(locData.downs))) * 100);
-//    
-//    contentString +=    '<div class="progress" style="width:200px">\
-//                            <div class="progress-bar progress-bar-success" style="width: ' + likePercentage + '%">\
-//                            </div>\
-//                            <div class="progress-bar progress-bar-danger" style="width: ' + (100 - likePercentage) + '%">\
-//                            </div>\
-//                        </div>';
-//
-//    contentString += "<h5 style='text-align: center'>Aproval of: " + likePercentage + "%</h5>";
-//
-//    var infowindow = new google.maps.InfoWindow({
-//        content: contentString
-//    });
 
     var marker = new google.maps.Marker({
         position: {
@@ -574,17 +581,10 @@ function addLocationToMap(locData){
             "url": 'img/VGG-marker.svg',
             "scaledSize": new google.maps.Size(40, 40)
         },
-//        infowindow: infowindow,
         vendingId: locData.id
     });
 
-//    google.maps.event.addListener(marker, 'mouseover', function () {
-//        this.infowindow.open(map, this);
-//    });
-//
-//    google.maps.event.addListener(marker, 'mouseout', function () {
-//        this.infowindow.close(map, this);
-//    });
+
 
     // Add events to fire during a click
     google.maps.event.addListener(marker, 'click', function () {
@@ -616,9 +616,7 @@ function setMainVendingMachine(id){
 
 function getVendingMachineInfo(id, errorCallBack, successCallBack){
     
-    
     makeHttpRequest("api/getVendingInfo.php?id="+id, errorCallBack, successCallBack);
-    
     
 }
 
