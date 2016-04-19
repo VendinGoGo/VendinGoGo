@@ -16,7 +16,7 @@ ____   ____                 .___.__         ________         ________
 document.onclick = $('#mode').change(function() {
     if($(this).prop('checked'))
     {
-        map.setMapTypeId("mapDark");
+        //map.setMapTypeId("mapDark");
 
         $('body').addClass('dark-mode');
         $('nav').addClass('dark-mode');
@@ -35,11 +35,10 @@ document.onclick = $('#mode').change(function() {
         $('.well').addClass('dark-mode');
 
 
-        console.log("Dark mode map")
     }
     else
     {
-        map.setMapTypeId("mapLight");
+        //map.setMapTypeId("mapLight");
 
         $('body').removeClass('dark-mode');
         $('nav').removeClass('dark-mode');
@@ -58,7 +57,6 @@ document.onclick = $('#mode').change(function() {
         $('.well').removeClass('dark-mode');
 
         
-        console.log("Light mode map")
     }
 
 });

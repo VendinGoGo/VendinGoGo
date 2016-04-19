@@ -2,7 +2,7 @@
 index-darkmode.css
 */
 
-/*
+
 body.dark-mode { 
     -webkit-filter: invert(1);
 }
@@ -23,9 +23,9 @@ nav.navbar-inverse.navbar-fixed-top.dark-mode {
 #profilePic.dark-mode {
     -webkit-filter: invert(1);
 }
-*/
 
-body.dark-mode {
+
+/*body.dark-mode {
     background-color: #2d2e30;
     width: 100%;
     height: 100%;
@@ -52,4 +52,4 @@ body.dark-mode {
 .well {
     background-color: #5d5f64;
     border-color: #7b7e84;
-}
+}*/

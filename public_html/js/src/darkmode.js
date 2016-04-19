@@ -13,8 +13,6 @@ checkDarkMode = function() {
         $('.panel').addClass('dark-mode');
         $('.panel-body').addClass('dark-mode');
 
-        getMapStyleDark();
-        console.log("Dark mode js")
 
     }
     else
@@ -31,8 +29,6 @@ checkDarkMode = function() {
         $('.panel').removeClass('dark-mode');
         $('.panel-body').removeClass('dark-mode');
 
-        getMapStyle();
-        console.log("Light mode js")
 
     }
 
