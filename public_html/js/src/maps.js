@@ -60,8 +60,6 @@ document.onclick = $('#mode').change(function() {
 
 });
 
-
->>>>>>> 984dc1d4229d02cfc9c8f2dd8821d452da28f818
 /**
  * Knockout View Model meant to be bound to the page to control
  * what is displayed on the sidebar
