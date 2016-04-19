@@ -495,12 +495,17 @@ function initMap() {
             };
 
             map.setCenter(pos);
+            
+            tryLoadingMachineFromURL();
+
 
         });
 
     }
     
+    
     tryLoadingMachineFromURL();
+
 
 }
 
@@ -738,7 +743,7 @@ function tryLoadingMachineFromURL(){
     console.log(id);
     
     if(id !== undefined && id !== null){
-        setMainVendingMachine(parseInt(id));
+        viewModel.viewLoc(parseInt(id));
     }
     
 }
