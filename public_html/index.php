@@ -159,15 +159,9 @@ if (isset($_GET['LOGOUT'])) {
                                         if (isset($_SESSION['access_token'])) {
                                             echo '<div>
                                             <h4>Leave Comment:</h4>
-<<<<<<< HEAD
-                                            <textarea class="form-control" style="resize: vertical; " data-bind="value: $parent.newCommentText"></textarea>
-                                            <button class="btn btn-success" data-bind="click: $parent.leaveComment" style="margin-top: 5px;">Post</button>
-=======
                                             <textarea class="form-control" style="resize: vertical; " data-bind="value: $parent.newCommentText, valueUpdate: \'afterkeydown\'"></textarea>
                                             <span data-bind="text: 160 - $parent.newCommentText().length"></span> characters left.<br>
                                             <button class="btn btn-success" data-bind="click: $parent.leaveComment" style="margin-top: 5px;">Post</button>
-
->>>>>>> master
                                             <br/><br/>
                                         </div>';
                                         } else {
