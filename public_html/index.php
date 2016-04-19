@@ -68,9 +68,12 @@ if (isset($_GET['LOGOUT'])) {
                         <img id="brandIcon" src="ico/android-icon-192x192.png"/>
                     </li>
 
-                    <a href="#" class="navbar-brand" role="button" onclick="">
+                    <li class="navbar-brand">
                         VendinGoGo
-                    </a>
+                    </li>
+                    <!--<a href="#" class="navbar-brand" role="button" onclick="">
+                        VendinGoGo
+                    </a>-->
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
