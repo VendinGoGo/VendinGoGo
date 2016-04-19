@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<!-- 
-____   ____                 .___.__         ________         ________        
-\   \ /   /____   ____    __| _/|__| ____  /  _____/  ____  /  _____/  ____  
- \   Y   // __ \ /    \  / __ | |  |/    \/   \  ___ /  _ \/   \  ___ /  _ \ 
+<!--
+____   ____                 .___.__         ________         ________
+\   \ /   /____   ____    __| _/|__| ____  /  _____/  ____  /  _____/  ____
+ \   Y   // __ \ /    \  / __ | |  |/    \/   \  ___ /  _ \/   \  ___ /  _ \
   \     /\  ___/|   |  \/ /_/ | |  |   |  \    \_\  (  <_> )    \_\  (  <_> )
-   \___/  \___  >___|  /\____ | |__|___|  /\______  /\____/ \______  /\____/ 
-              \/     \/      \/         \/        \/               \/     
+   \___/  \___  >___|  /\____ | |__|___|  /\______  /\____/ \______  /\____/
+              \/     \/      \/         \/        \/               \/
 Brought to you by: Kaleb Pace, Josh Hawkins, Hunter Holder, and Eli Davis
 https://github.com/VendinGoGo/VendinGoGo
 -->
@@ -85,8 +85,11 @@ if (isset($_GET['LOGOUT'])) {
                     if (!isset($_SESSION['access_token'])) {
                         echo '<li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Options/Sign In<span class="caret"></span></a>
-                            
+
                             <ul class="dropdown-menu">
+                                <li><a href="https://github.com/VendinGoGo" target="_blank">VendinGoGo on GitHub</a></li>
+                                <li><a href="https://twitter.com/VendinGoGo" target="_blank">VendinGoGo on Twitter</a></li>
+                                <li role="separator" class="divider"></li>
                                 <li><a href="api/twitterLogin.php">Sign In via Twitter</a></li>
                                 <li><a><label for="mode"><input type="checkbox" id="mode"> Dark Mode </label></a></li>
                             </ul>
@@ -94,17 +97,16 @@ if (isset($_GET['LOGOUT'])) {
                     } else {
                         echo '<li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . $accountName . '<span class="caret"></span></a>
-                            
-                            <ul class="dropdown-menu">
 
+                            <ul class="dropdown-menu">
                                 <li class="add-button mobile-hide" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>
                                 <li class="add-button mobile-hide" onclick="displayUserInfo(\'' . $_SESSION['access_token']['user_id'] . '\')"><a href="#">View Account Info</a></li>
                                 <li role="separator" class="divider mobile-hide"></li>
                                 <li><a href="https://github.com/VendinGoGo" target="_blank">VendinGoGo on GitHub</a></li>
                                 <li><a href="https://twitter.com/VendinGoGo" target="_blank">VendinGoGo on Twitter</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a><label for="mode"><input type="checkbox" id="mode"> Dark Mode </label></a></li>
                                 <li><a href="index.php?LOGOUT=true">Sign Out</a></li>
+                                <li><a><label for="mode"><input type="checkbox" id="mode"> Dark Mode </label></a></li>
                             </ul>
                         </li>';
                     }
@@ -151,7 +153,7 @@ if (isset($_GET['LOGOUT'])) {
                                                         <b>Submitted By:</b> <a data-bind="text: username, click: function(){$parents[1].displyUserInfo(userId)}" href="#"></a>
                                                     </span><br/>
                                                     <span class="label label-default" data-bind="text: date" style="margin-top: 15px;"></span>
-                                                    
+
                                                 </div>
 
                                             </div>
@@ -242,7 +244,7 @@ if (isset($_GET['LOGOUT'])) {
                                 </center>
                             </div>
                         </div>
-                    </div>  
+                    </div>
 
                 </div>
 
