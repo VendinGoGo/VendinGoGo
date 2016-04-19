@@ -2,7 +2,6 @@
 index-darkmode.css
 */
 
-
 body.dark-mode {
     -webkit-filter: invert(1);
 }
@@ -26,6 +25,10 @@ nav.navbar-inverse.navbar-fixed-top.dark-mode {
 
 /*
 body.dark-mode {
+=======
+
+/*body.dark-mode {
+>>>>>>> 984dc1d4229d02cfc9c8f2dd8821d452da28f818
     background-color: #2d2e30;
     width: 100%;
     height: 100%;
@@ -52,5 +55,6 @@ body.dark-mode {
 .well {
     background-color: #5d5f64;
     border-color: #7b7e84;
+<<<<<<< HEAD
 }
 */
