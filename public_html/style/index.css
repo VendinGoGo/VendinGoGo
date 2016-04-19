@@ -18,27 +18,23 @@ body {
 }
 
 #sidebar {
-    background-color: #f2f5f1;
+    background-color: #e5e5e5;
     border-right-width: 2px;
     border-right-style: solid;
-    border-color: #d4d4d4;
+    border-color: #bfbfbf;
 }
 
 .panel {
     box-shadow: none;
     drop-shadow: none;
     border: none;
-    background-color: #fafffe;
+    background-color: #cbcbcb;
     margin-left: -6px;
     margin-right: -6px;
 }
 
 .panel-body {
-    color: #525252;
-}
-
-.panel-body > p {
-    color: #626262;
+    color: #404040;
 }
 
 .navbar-brand {

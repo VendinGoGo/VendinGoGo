@@ -174,7 +174,7 @@ if (isset($_GET['LOGOUT'])) {
                                             echo '<div>
                                             <h4>Leave Comment:</h4>
                                             <textarea class="form-control" style="resize: vertical; " data-bind="value: $parent.newCommentText"></textarea>
-                                            <button class="btn btn-success dark-mode" data-bind="click: $parent.leaveComment" style="margin-top: 5px;">Post</button>
+                                            <button class="btn btn-success" data-bind="click: $parent.leaveComment" style="margin-top: 5px;">Post</button>
                                             <br/><br/>
                                         </div>';
                                         } else {
