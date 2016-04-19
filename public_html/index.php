@@ -18,7 +18,6 @@ if (!isset($_SESSION['access_token'])) {
 } else {
     $accountName = $_SESSION['access_token']['screen_name'];
     $profilePic = $_SESSION['tprofile_pic_url'];
-    $_SESSION['en_dk_mode'] = True;
 }
 
 if (isset($_GET['LOGOUT'])) {
@@ -70,8 +69,11 @@ if (isset($_GET['LOGOUT'])) {
                     </li>
 
                     <li class="navbar-brand">
-                        VendinGoGo 
+                        VendinGoGo
                     </li>
+                    <!--<a href="#" class="navbar-brand" role="button" onclick="">
+                        VendinGoGo
+                    </a>-->
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -86,6 +88,7 @@ if (isset($_GET['LOGOUT'])) {
                             
                             <ul class="dropdown-menu">
                                 <li><a href="api/twitterLogin.php">Sign In via Twitter</a></li>
+                                <li><a><label for="mode"><input type="checkbox" id="mode"> Dark Mode </label></a></li>
                             </ul>
                             </li>';
                     } else {
@@ -250,7 +253,78 @@ if (isset($_GET['LOGOUT'])) {
             </div>
         </div>
 
+        <!-- Display Location Modal -->
+        <div class="modal fade" id="location-modal" role="dialog">
+            <div class="modal-dialog">
 
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header" >
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><span class="modal-title"></span>Something went wrong.</h4>
+                    </div>
+
+                    <div class="modal-body" >
+                        <div data-bind="with: mainVendingMachine">
+
+                            <h4>How To Find:</h4>
+                            <p style="word-wrap: break-word;" data-bind="text: $parent.getHowToFind"></p>
+
+                            <br/>
+
+                            <div data-bind="if: statuses.length > 0">
+                                <h4>Statuses:</h4>
+
+                                <div data-bind="foreach: statuses">
+                                    <div class="well well-sm" role="alert" style="padding:8px;margin-bottom: 10px">
+
+                                        <span style="word-wrap: break-word;" data-bind="text: comment"></span>
+                                        <br/>
+                                        <br/>
+                                        <span data-bind="if: username">
+                                            <b>Submitted By:</b> <a data-bind="text: username, click: function(){$parents[1].displyUserInfo(userId)}" href="#"></a>
+                                        </span><br/>
+                                        <span class="label label-default" data-bind="text: date" style="margin-top: 15px;"></span>
+
+                                    </div>
+
+                                </div>
+                                <br/>
+                            </div>
+
+                            <?php
+                            if (isset($_SESSION['access_token'])) {
+                                echo '<div>
+                                            <h4>Leave Comment:</h4>
+                                            <textarea class="form-control" style="resize: vertical; " data-bind="value: $parent.newCommentText, valueUpdate: \'afterkeydown\'"></textarea>
+                                            <span data-bind="text: 160 - $parent.newCommentText().length"></span> characters left.<br>
+                                            <button class="btn btn-success" data-bind="click: $parent.leaveComment" style="margin-top: 5px;">Post</button>
+                                            <br/><br/>
+                                        </div>';
+                            } else {
+                                echo '<h4>Sign in to leave a comment.</h4>';
+                            }
+                            ?>
+
+                            <span class="label label-success">Number of Machines: <span data-bind="html: numOfMachines"></span></span>
+                            <br>
+                            <br>
+                            <b>Submitted By:</b> <a data-bind="text: username, click: function(){$parent.displyUserInfo(userId)}" href="#"></a>
+                            <div>
+                                <h4>Share This Location</h4>
+                                <input onclick="this.focus();this.select()" readonly="readonly" class="form-control" type="text" data-bind="value: $parent.getShareLink">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <a class="btn btn-warning btn-ok" data-dismiss="modal">Okay</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
         <!-- Display Error Modal -->
         <div class="modal fade" id="confirm-action" role="dialog">
@@ -277,18 +351,18 @@ if (isset($_GET['LOGOUT'])) {
         </div>
 
         <!-- Display User Info Modal -->
-        <div class="modal fade" id="display-user-model" role="dialog" data-bind="if:specificUserInfo" style="height: 100%" >
+        <div class="modal fade" id="display-user-model" role="dialog" data-bind="if:specificUserInfo"  >
             <div class="modal-dialog" data-bind="with: specificUserInfo">
 
                 <!-- Modal content-->
-                <div class="modal-content" style="height:100%">
+                <div class="modal-content">
 
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h2><span class="modal-title" data-bind="text: username"></span><br/><small> Signed Up: <span data-bind="text: signup"></span></small></h2>
                     </div>
 
-                    <div class="modal-body" style="height:30%;overflow: auto;">
+                    <div class="modal-body">
 
                         <div class="container-fluid">
 
@@ -363,7 +437,7 @@ if (isset($_GET['LOGOUT'])) {
 
         <!--our code-->
         <script src="js/src/maps.js"></script>
-        <!--<script src="js/src/darkmode.js"></script>-->
+        <script src="js/src/darkmode.js"></script>
 
         <!--Make sure this  is loaded after map is so it doesn't try calling init before init is loaded onto the page-->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKdjL4G5gfdxhuqxVQTzVNmIUL7bE5-tE&callback=initMap" async defer></script>
