@@ -52,10 +52,6 @@ body {
     z-index: 99;
 }
 
-.dropdown-toggle {
-
-}
-
 .add-button {
     color: #21d467;
 }
@@ -87,6 +83,12 @@ body {
     overflow-y: scroll;
 }
 
+.small-vending-loc {
+    width:100%;
+    margin-bottom: 10px;
+    min-height: 5em;
+}
+
 @media screen and (min-width: 0px) and (max-width: 767px) {
     /*Mobile Device*/
     /*Eli*/
@@ -94,7 +96,8 @@ body {
 
     /*Josh*/
     /*Hide "VendinGoGo Logo Text"*/
-    nav div ul li.navbar-brand {
+    li.navbar-brand,
+    a.navbar-brand {
         display: none;
     }
 
@@ -138,14 +141,23 @@ body {
     #profilePic {
         float: right;
     }
+
+    /*Set border around dropdown menu*/
+    .dropdown.open {
+        border: solid 2px #080808;
+    }
+
+    /*Set border for top of dropdown menu to be noticed in darkmode*/
+    ul.dropdown-menu {
+        border-top: solid 2px #080808 !important;
+    }
+
+    /*Set color of text links in dropdown to be same in darkmode and light*/
+    ul.dropdown-menu li a {
+        color: #808080 !important;
+    }
 }
 
 @media screen and (min-width: 768px)  {
     .mobile-show{ display: block;}
-}
-
-.small-vending-loc {
-    width:100%;
-    margin-bottom: 10px;
-    min-height: 5em;
 }
