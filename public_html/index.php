@@ -259,12 +259,11 @@ if (isset($_GET['LOGOUT'])) {
 
                 <!-- Modal content-->
                 <div class="modal-content">
-                    <div class="modal-header" >
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4><span class="modal-title"></span>Something went wrong.</h4>
-                    </div>
 
                     <div class="modal-body" >
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                        
                         <div data-bind="with: mainVendingMachine">
 
                             <h4>How To Find:</h4>
@@ -351,7 +350,7 @@ if (isset($_GET['LOGOUT'])) {
         </div>
 
         <!-- Display User Info Modal -->
-        <div class="modal fade" id="display-user-model" role="dialog" data-bind="if:specificUserInfo"  >
+        <div class="modal fade" id="display-user-model" role="dialog"  >
             <div class="modal-dialog" data-bind="with: specificUserInfo">
 
                 <!-- Modal content-->
