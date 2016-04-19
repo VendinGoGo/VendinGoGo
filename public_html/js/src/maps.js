@@ -30,6 +30,10 @@ document.onclick = $('#mode').change(function() {
         $('#sidebar').addClass('dark-mode');
         $('.panel').addClass('dark-mode');
         $('.panel-body').addClass('dark-mode');
+        $('.modal').addClass('dark-mode');
+        $('.modal-content').addClass('dark-mode');
+        $('.well').addClass('dark-mode');
+
 
         console.log("Dark mode map")
     }
@@ -49,6 +53,10 @@ document.onclick = $('#mode').change(function() {
         $('.panel').removeClass('dark-mode');
         $('.panel-body').removeClass('dark-mode');
         $('#sidebar').removeClass('dark-mode');
+        $('.modal').removeClass('dark-mode');
+        $('.modal-content').removeClass('dark-mode');
+        $('.well').removeClass('dark-mode');
+
         
         console.log("Light mode map")
     }

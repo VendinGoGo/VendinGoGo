@@ -39,3 +39,17 @@ body.dark-mode {
     border-right-style: solid;
     border-color: #9a9a9a;
 }
+
+.modal {
+    color: #b8b8b8;
+}
+
+.modal-content {
+    background-color: #494b50;
+
+}
+
+.well {
+    background-color: #5d5f64;
+    border-color: #7b7e84;
+}
