@@ -16,27 +16,41 @@ ____   ____                 .___.__         ________         ________
 document.onclick = $('#mode').change(function() {
     if($(this).prop('checked'))
     {
+        map.setMapTypeId("mapDark");
+
         $('body').addClass('dark-mode');
         $('nav').addClass('dark-mode');
-        $('button').addClass('dark-mode');
+        $('.btn').addClass('dark-mode');
         $('.navbar-brand').addClass('dark-mode');
         $('.dropdown-toggle').addClass('dark-mode');
         $('.label').addClass('dark-mode');
         $('.label-success').addClass('dark-mode');
         $('#profilePic').addClass('dark-mode');
         $('#brandIcon').addClass('dark-mode');
+        $('#sidebar').addClass('dark-mode');
+        $('.panel').addClass('dark-mode');
+        $('.panel-body').addClass('dark-mode');
+
+        console.log("Dark mode map")
     }
     else
     {
+        map.setMapTypeId("mapLight");
+
         $('body').removeClass('dark-mode');
         $('nav').removeClass('dark-mode');
-        $('button').removeClass('dark-mode');
+        $('.btn').removeClass('dark-mode');
         $('.navbar-brand').removeClass('dark-mode');
         $('.dropdown-toggle').removeClass('dark-mode');
         $('.label').removeClass('dark-mode');
         $('.label-success').removeClass('dark-mode');
         $('#profilePic').removeClass('dark-mode');
         $('#brandIcon').removeClass('dark-mode');
+        $('.panel').removeClass('dark-mode');
+        $('.panel-body').removeClass('dark-mode');
+        $('#sidebar').removeClass('dark-mode');
+        
+        console.log("Light mode map")
     }
 
 });
@@ -66,6 +80,11 @@ function SidebarViewModel(){
      */
     self.shouldShowVendingMachineView = ko.computed(function(){
         return self.mainView() === "machine";
+    }, this);
+    
+    self.shouldShowVendingMachineView.subscribe(function(){
+        $('.panel').addClass('dark-mode');
+        $('.panel-body').addClass('dark-mode');
     }, this);
     
     
@@ -101,7 +120,7 @@ function SidebarViewModel(){
      * details and updates
      */
     self.mainVendingMachine = ko.observable(null);
-
+    
     
     /**
      * Computed boolean that determines whether or not to display the html
@@ -448,9 +467,9 @@ function initMap() {
     });
 
     // Set the style of the map
-    var style = getMapStyle();
-    map.mapTypes.set('mappp', style);
-    map.setMapTypeId("mappp");
+    map.mapTypes.set('mapLight', getMapStyle());
+    map.mapTypes.set('mapDark', getMapStyleDark());
+    map.setMapTypeId("mapLight");
 
     // Create a marker cluster for preventing a plethura of icons in the view
     markerCluster = new MarkerClusterer(map, []);
@@ -580,7 +599,7 @@ function addLocationToMap(locData){
     viewModel.addSmallLocation(locData);
     
     locationsAdded.push(locData.id);
-    
+        
     return marker;
 
 }
@@ -630,6 +649,23 @@ function getMapStyle(){
     
     return customMapType;
     
+}
+
+function getMapStyleDark(){
+
+    var mapOptions =
+        [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#1d1d1d"}]},
+         {"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#0c2434"}]},
+         {"featureType":"poi","elementType":"geometry","stylers":[{"color":"#4E3A24"}]}, 
+         {"featureType":"transit","elementType":"geometry","stylers":[{"color":"#888681"}]}, 
+         {"featureType":"road","elementType":"geometry","stylers":[{"saturation":-100},{"lightness":5},{"color":"#7b7b7b"}]},
+         {"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"simplified"},{"saturation":-100},{"lightness":10},{"color":"#535353"}]},
+         {"featureType":"water","elementType":"geometry","stylers":[{"color":"#3c6d80"},{"visibility":"on"}]}];
+
+    var customMapType = new google.maps.StyledMapType(mapOptions);
+
+    return customMapType;
+
 }
 
 
