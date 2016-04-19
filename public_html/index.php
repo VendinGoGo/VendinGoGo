@@ -97,7 +97,7 @@ if (isset($_GET['LOGOUT'])) {
                                 <li class="add-button mobile-hide" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>
                                 <li class="add-button mobile-hide" onclick="displayUserInfo(\'' . $_SESSION['access_token']['user_id'] . '\')"><a href="#">View Account Info</a></li>
                                 <li role="separator" class="divider mobile-hide"></li>
-                                <li><a href="https://github.com/VendinGoGo/VendinGoGo" target="_blank">VendinGoGo Source Code</a></li>
+                                <li><a href="https://github.com/VendinGoGo" target="_blank">VendinGoGo on GitHub</a></li>
                                 <li><a href="https://twitter.com/VendinGoGo" target="_blank">VendinGoGo on Twitter</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a><label for="mode"><input type="checkbox" id="mode"> Dark Mode </label></a></li>
