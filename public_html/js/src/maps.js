@@ -1,10 +1,10 @@
-/* 
-____   ____                 .___.__         ________         ________        
-\   \ /   /____   ____    __| _/|__| ____  /  _____/  ____  /  _____/  ____  
- \   Y   // __ \ /    \  / __ | |  |/    \/   \  ___ /  _ \/   \  ___ /  _ \ 
+/*
+____   ____                 .___.__         ________         ________
+\   \ /   /____   ____    __| _/|__| ____  /  _____/  ____  /  _____/  ____
+ \   Y   // __ \ /    \  / __ | |  |/    \/   \  ___ /  _ \/   \  ___ /  _ \
   \     /\  ___/|   |  \/ /_/ | |  |   |  \    \_\  (  <_> )    \_\  (  <_> )
-   \___/  \___  >___|  /\____ | |__|___|  /\______  /\____/ \______  /\____/ 
-              \/     \/      \/         \/        \/               \/        
+   \___/  \___  >___|  /\____ | |__|___|  /\______  /\____/ \______  /\____/
+              \/     \/      \/         \/        \/               \/
 
  * JS By Eli C Davis <3
  * github.com/EliCDavis
@@ -32,8 +32,7 @@ document.onclick = $('#mode').change(function() {
         $('.modal').addClass('dark-mode');
         $('.modal-content').addClass('dark-mode');
         $('.well').addClass('dark-mode');
-
-
+        $('[name="theme-color"]').attr("content", "#DE2B99");
     }
     else
     {
@@ -54,8 +53,7 @@ document.onclick = $('#mode').change(function() {
         $('.modal').removeClass('dark-mode');
         $('.modal-content').removeClass('dark-mode');
         $('.well').removeClass('dark-mode');
-
-        
+        $('[name="theme-color"]').attr("content", "#21D466");
     }
 
 });
@@ -66,18 +64,18 @@ document.onclick = $('#mode').change(function() {
  * @returns {undefined}
  */
 function SidebarViewModel(){
-    
+
     // Good Practice
     var self = this;
-    
-    
+
+
     /**
      * The current view we're currentely displaying in our sidebar.
      * Currentely the two views available are "machine" and "creation"
      */
     self.mainView = ko.observable("machine");
-    
-    
+
+
     /**
      * Computed boolean that determines whether or not we should be showing
      * DOM elements relating to browswing through vending machines
@@ -85,16 +83,16 @@ function SidebarViewModel(){
     self.shouldShowVendingMachineView = ko.computed(function(){
         return self.mainView() === "machine";
     }, this);
-    
-    
-    
+
+
+
     self.shouldShowVendingMachineView.subscribe(function(data){
         $('.panel').addClass('dark-mode');
         $('.panel-body').addClass('dark-mode');
-        
+
     }, this);
-    
-    
+
+
     /**
      * Computed boolean that determines whether or not we should be showing
      * DOM elements relating to creating a new vending location
@@ -102,12 +100,12 @@ function SidebarViewModel(){
     self.shouldShowVendingCreationView = ko.computed(function(){
         return self.mainView() === "creation";
     }, this);
-    
-    
+
+
     /**
      * Changes the type of view we're working with to the creation of a
      * vending machine
-     * 
+     *
      * @returns {undefined}
      */
     self.switchToVendingCreationView = function () {
@@ -120,15 +118,15 @@ function SidebarViewModel(){
         self.mainView("machine");
         self.clearCreateLocationMarker();
     };
-    
-    
+
+
     /**
-     * The main vending machine to be displayed with all it's 
+     * The main vending machine to be displayed with all it's
      * details and updates
      */
     self.mainVendingMachine = ko.observable(null);
-    
-    
+
+
     /**
      * Computed boolean that determines whether or not to display the html
      * presenting teh main vending machine
@@ -136,90 +134,90 @@ function SidebarViewModel(){
     self.shouldShowMainView = ko.computed(function(){
         return (self.mainVendingMachine() !== null && self.mainVendingMachine() !== undefined);
     }, this);
-    
-    
+
+
     /**
      * Array of location objects loaded on the page
      */
     self.smallLocationsLoaded = ko.observableArray([]);
-    
-    
+
+
     /**
-     * Computed array to determine which locations should ve displayed 
+     * Computed array to determine which locations should ve displayed
      * based on the main view and potentially other rules
      */
     self.getSmallLocationsToView = ko.computed(function(){
-        
+
         return [];
-        
+
         if(self.mainVendingMachine() === null || self.mainVendingMachine() === undefined){
             return self.smallLocationsLoaded();
         }
-        
+
         var toView = [];
-        
+
         for(var i = 0; i < self.smallLocationsLoaded().length; i ++){
             if(self.smallLocationsLoaded()[i].id !== self.mainVendingMachine().id){
                 toView.push(self.smallLocationsLoaded()[i]);
             }
         }
-        
+
         return toView;
-        
+
     }, this);
-    
-    
+
+
     /**
      * Makes a marker that was passed in bounce up
      * and down on the map
-     * 
+     *
      * @param {type} loc
      * @returns {undefined}
      */
     self.animateSmallLocation = function(loc){
         makeMarkerBounce(loc.id);
     };
-    
-    
+
+
     /**
-     * Removes all animations that a marker passed in 
+     * Removes all animations that a marker passed in
      * might have
-     * 
+     *
      * @param {type} loc
      * @returns {undefined}
      */
     self.stopSmallLocationAnimation = function(loc){
         clearMarkerAnimation(loc.id);
     };
-    
-    
+
+
     /**
      * Adds a location to be viewed compressed on the sidebar
-     * 
+     *
      * @param {VendingLocationJSON} loc
      * @returns {undefined}
      */
     self.addSmallLocation = function(loc){
-        
+
         if(loc === null || loc === ""){
             console.log("The Location Your Trying To View Is Null/Undefined!");
             return;
         }
-        
+
         self.smallLocationsLoaded.push(loc);
-        
+
     };
-    
-    
+
+
     /**
-     * Loads in all the machines information based on the id of the 
+     * Loads in all the machines information based on the id of the
      * location and displays it on the main view.
-     * 
+     *
      * @param {VendingLocationJSON} loc
      * @returns {undefined}
      */
     self.viewSmallLocation = function(loc){
-        
+
         getVendingMachineInfo(loc.id, function(){}, function(data){
             self.setMainVendingMachineView(data);
             clearMarkerAnimation(loc.id);
@@ -229,59 +227,59 @@ function SidebarViewModel(){
             });
 
         });
-        
+
     };
-    
-    
-    
+
+
+
     self.viewLoc = function(id){
-        
+
         getVendingMachineInfo(id, function(){}, function(data){
-            
+
 
             self.setMainVendingMachineView(data);
-            
+
             self.switchToVendingMachineView();
-            
+
             $("#display-user-model").modal('hide');
 
             map.panTo( {
                 "lat": parseFloat(data.lat),
                 "lng": parseFloat(data.lng)
             });
-            
+
         });
-        
+
     };
-    
-    
+
+
     /**
      * Computed string that returns the how to find details of the main vending
      * machine, if they exhist.
-     * 
+     *
      * If there's no info, it defaults to 'No Info :('
      */
     self.getHowToFind = ko.computed(function(){
         return (self.shouldShowMainView() && self.mainVendingMachine().howToFind !== null && self.mainVendingMachine().howToFind !== "") ? self.mainVendingMachine().howToFind : 'No Info :(';
     }, this);
-    
+
 
     /**
      * A computed variable that create's a string representing a url
      * that will pull up a certain vending machine
      */
     self.getShareLink = ko.computed(function(){
-        
+
         if(self.mainVendingMachine() === null || self.mainVendingMachine() === undefined){
             return;
         }
-        
+
         if(self.mainVendingMachine().id === null || self.mainVendingMachine().id === undefined){
             return;
         }
-        
+
         return window.location.origin+"/?id="+self.mainVendingMachine().id;
-        
+
     },this);
 
 
@@ -289,18 +287,18 @@ function SidebarViewModel(){
 
     /**
      * Set's the machine passed to be the main view if appropriate
-     * 
+     *
      * @param {VendingLocationJSON} machine
      * @returns {undefined}
      */
     self.setMainVendingMachineView = function(machine){
-        
+
         if(machine === null || machine === undefined){
             console.log("The Machine Your Trying To View Is Null/Undefined!");
             return;
         }
-        
-        
+
+
         if (window.mobilecheck()) {
             $("#location-modal").modal();
             if (self.hasBoundMobileLocation === false) {
@@ -308,29 +306,29 @@ function SidebarViewModel(){
                 self.hasBoundMobileLocation = true;
             }
         }
-        
+
         self.mainVendingMachine(machine);
-        
+
     };
-    
-    
-    
+
+
+
     self.rightClickEvent = function(latLng){
-        
+
         if(self.shouldShowVendingCreationView() === true){
             self.setCreationMarkerLocation(latLng.lat(), latLng.lng());
         }
-        
+
     };
-    
+
     self.creationMarker = ko.observable(null);
-    
+
     self.creationNumMachines = ko.observable(1);
-    
+
     self.creationHowToFind = ko.observable("");
-    
+
     self.setCreationMarkerLocation = function(lat, lng){
-        
+
         if(self.creationMarker() !== null){
             self.creationMarker().setPosition({lat: lat, lng: lng});
         } else {
@@ -351,48 +349,48 @@ function SidebarViewModel(){
 
             self.creationMarker(marker);
         }
-        
+
     };
-    
-    
+
+
     /**
-     * 
+     *
      * @returns {undefined}
      */
     self.createMachineLocation = function(){
-        
+
         if(self.creationMarker() === null){
             return;
         }
-        
+
         var loc = self.creationMarker().getPosition();
-        
+
         //TRY NOT EVEN ROUNDINGs
         var url = "api/addVendingMachine.php?lat="+loc.lat()+"&lng="+loc.lng()+"&m="+self.creationNumMachines()+"&w="+self.creationHowToFind();
-        makeHttpRequest(url, 
+        makeHttpRequest(url,
         function(){
             displayMessage("Something went wrong trying to create the vending machine!");
         }, function(data){
-            
+
             if(data.result === "success"){
-                
+
                 self.switchToVendingMachineView();
                 self.clearCreateLocationMarker();
                 setMainVendingMachine(data.id);
                 addVendingMachineToMap(data.id);
-                
+
             } else if( data.result === "failure"){
-               
+
                displayMessage("Failure creating the vending machine!");
-               
+
             }
-            
-            
+
+
 
         });
-        
+
     };
-    
+
     self.clearCreateLocationMarker = function(){
         if(self.creationMarker() !== null){
             self.creationMarker().setMap(null);
@@ -402,23 +400,23 @@ function SidebarViewModel(){
 
 
     self.newCommentText = ko.observable("");
-    
+
     self.leaveComment = function(){
-        
+
         if(self.newCommentText() === null || self.newCommentText() === undefined || self.newCommentText() === ""){
             return;
         }
-        
+
         if(self.mainVendingMachine() === null || self.mainVendingMachine().id === undefined){
             return;
         }
-        
+
         var request = "api/addVendingStatus.php?id=" + self.mainVendingMachine().id + "&comment=" + self.newCommentText();
-        
-        
+
+
         makeHttpRequest(request, function () {
             displayMessage("Unable to post the comment");
-        }, 
+        },
                 function (data) {
                     if (data.result === "success") {
                         setMainVendingMachine(self.mainVendingMachine().id);
@@ -428,7 +426,7 @@ function SidebarViewModel(){
                     }
                 });
     };
-    
+
     self.specificUserInfo = ko.observable(null);
 
     self.displyUserInfo = function(id){
@@ -461,7 +459,7 @@ var locationsAdded = [];
 /**
  * Callback function for Googlemaps when it's done loading. (So don't change it's name)
  * Creates a map instance as well as setting up styles and
- * 
+ *
  * @returns {undefined}
  */
 function initMap() {
@@ -504,15 +502,15 @@ function initMap() {
             };
 
             map.setCenter(pos);
-            
+
             tryLoadingMachineFromURL();
 
 
         });
 
     }
-    
-    
+
+
     tryLoadingMachineFromURL();
 
 
@@ -521,7 +519,7 @@ function initMap() {
 
 /**
  * Retrieve vending machine locations and display them on the page
- * 
+ *
  * @returns {undefined}
  */
 function displayVedingLocations() {
@@ -534,7 +532,7 @@ function displayVedingLocations() {
 
             if (marker !== null && marker !== undefined) {
                 markerCluster.addMarker(marker, true);
-            } 
+            }
 
         }
     });
@@ -543,54 +541,54 @@ function displayVedingLocations() {
 
 
 function makeMarkerBounce(markerId){
-    
+
     for(var i = 0; i < markerCluster.getMarkers().length; i ++){
-        
+
         if(markerCluster.getMarkers()[i].vendingId === markerId){
             markerCluster.getMarkers()[i].setAnimation(google.maps.Animation.BOUNCE);
         }
-        
+
     }
-    
+
 }
 
 function clearMarkerAnimation(markerId){
-    
+
     for(var i = 0; i < markerCluster.getMarkers().length; i ++){
-        
+
         if(markerCluster.getMarkers()[i].vendingId === markerId){
             markerCluster.getMarkers()[i].setAnimation(null);
         }
-        
+
     }
-    
+
 }
 
 
 /**
  * Adds a vending location to the map to be displayed as well as on the sidebar
  * if appropriate
- * 
+ *
  * @param {type} locData
  * @returns {undefined|google.maps.Marker}
  */
 function addLocationToMap(locData){
-    
-    
+
+
     // Catch it if it's null
     if(locData === null || locData === undefined){
         console.log("Attempting to add null marker!");
         return;
     }
-    
-    
+
+
     // Before we do anything make sure we haven't seen this marker before
     for(var i = 0; i < locationsAdded.length; i ++){
         if(locData.id === locationsAdded[i]){
             return null;
         }
     }
-    
+
 
     var marker = new google.maps.Marker({
         position: {
@@ -616,12 +614,12 @@ function addLocationToMap(locData){
             viewModel.setMainVendingMachineView(data);
         });
     });
-    
-    
+
+
     viewModel.addSmallLocation(locData);
-    
+
     locationsAdded.push(locData.id);
-        
+
     return marker;
 
 }
@@ -637,40 +635,40 @@ function setMainVendingMachine(id){
 
 
 function getVendingMachineInfo(id, errorCallBack, successCallBack){
-    
+
     makeHttpRequest("api/getVendingInfo.php?id="+id, errorCallBack, successCallBack);
-    
+
 }
 
 
 function getVendingLocations(cb){
-    
+
     makeHttpRequest("api/getVendingLocations.php",
     function(){
-        
+
         displayMessage("Unable to retrieve vending locations");
-        
+
     }, function(data){
         cb(data);
     });
-    
+
 }
 
 
 function getMapStyle(){
-    
+
     var mapOptions =
         [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},
         {"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#ebefeb"}]},
-         {"featureType":"poi","elementType":"geometry","stylers":[{"color":"#cdecbc"}]}, 
+         {"featureType":"poi","elementType":"geometry","stylers":[{"color":"#cdecbc"}]},
         {"featureType":"road","elementType":"geometry","stylers":[{"saturation":-100},{"lightness":45}]},
         {"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"simplified"}]},
         {"featureType":"water","elementType":"geometry","stylers":[{"color":"#7ed3f5"},{"visibility":"on"}]}];
-    
+
     var customMapType = new google.maps.StyledMapType(mapOptions);
-    
+
     return customMapType;
-    
+
 }
 
 // function getMapStyleDark(){
@@ -694,7 +692,7 @@ function getMapStyle(){
 /**
  * Creates an asynchronus http request for loading contents onto the page
  * to make it more dynamic.
- * 
+ *
  * @param {string} url Location to hit to pull information from
  * @param {function} errcb Function called when the request fails
  * @param {function} succb Function called when the request suceeds with the data recieved
@@ -703,28 +701,28 @@ function getMapStyle(){
 function makeHttpRequest(url, errcb, succb){
 
     var xmlhttp = new XMLHttpRequest();
-    
+
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
             console.log(xmlhttp.responseText);
             var postData = JSON.parse(xmlhttp.responseText);
             succb(postData);
         } else {
-    
+
             if(xmlhttp.readyState === 4 && xmlhttp.status !== 200){
-    
+
                 if(errcb !== null){
                     errcb();
                 }
-    
+
             }
-    
+
         }
     };
-    
+
     xmlhttp.open("GET",
             url, true);
-    
+
     xmlhttp.send();
 
 }
@@ -742,19 +740,19 @@ function addVendingMachineToMap(id){
 /**
  * If an id is a variable in the url then we will try loading a vending
  * location that uses that id to show to the user
- * 
+ *
  * @returns {undefined}
  */
 function tryLoadingMachineFromURL(){
-    
+
     var id = getParameterByName("id");
-    
+
     console.log(id);
-    
+
     if(id !== undefined && id !== null){
         viewModel.viewLoc(parseInt(id));
     }
-    
+
 }
 
 
@@ -763,32 +761,32 @@ var userModalAppliedBindings = false;
 /**
  * Attempts to grab a user based on the userid passed in.
  * If grabbing the information is succesful, then a modal pops up with the users information.
- * 
+ *
  * @param {type} userId
  * @returns {undefined}
  */
 function displayUserInfo(userId){
-    
+
     if(userId === null || userId === undefined || parseInt(userId) === 0){
         return;
     }
-    
+
     makeHttpRequest("api/getUserInfo.php?id="+userId, function(){
         displayMessage("Unable to grab user information!");
     }, function(data){
-        
+
         //console.log(data);
         viewModel.specificUserInfo(data);
         $("#location-modal").modal('hide');
 
         $("#display-user-model").modal();
-        
+
         if(userModalAppliedBindings === false){
             ko.applyBindings(viewModel, document.getElementById("display-user-model"));
             userModalAppliedBindings = true;
     }
     });
-    
+
 }
 
 
@@ -806,7 +804,7 @@ function getParameterByName(name, url) {
 
 /// Conjures modal that asks user whether they want to perform or cancel an action.
 function displayMessage(actionMessage) {
-    
+
     $("#confirm-action").modal();
     $("#custom-Action-Message").text(actionMessage);
 
