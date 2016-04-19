@@ -87,10 +87,11 @@ if (isset($_GET['LOGOUT'])) {
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Options/Sign In<span class="caret"></span></a>
 
                             <ul class="dropdown-menu">
+                                <li><a href="api/twitterLogin.php">Sign In via Twitter</a></li>
+                                <li role="separator" class="divider"></li>
                                 <li><a href="https://github.com/VendinGoGo" target="_blank">VendinGoGo on GitHub</a></li>
                                 <li><a href="https://twitter.com/VendinGoGo" target="_blank">VendinGoGo on Twitter</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="api/twitterLogin.php">Sign In via Twitter</a></li>
                                 <li><a><label for="mode"><input type="checkbox" id="mode"> Dark Mode </label></a></li>
                             </ul>
                             </li>';
@@ -99,13 +100,14 @@ if (isset($_GET['LOGOUT'])) {
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . $accountName . '<span class="caret"></span></a>
 
                             <ul class="dropdown-menu">
+                                <li><a href="index.php?LOGOUT=true">Sign Out</a></li>
+                                <li role="separator" class="divider"></li>
                                 <li class="add-button mobile-hide" onclick="viewModel.switchToVendingCreationView()"><a href="#">Add Vending Location</a></li>
                                 <li class="add-button mobile-hide" onclick="displayUserInfo(\'' . $_SESSION['access_token']['user_id'] . '\')"><a href="#">View Account Info</a></li>
                                 <li role="separator" class="divider mobile-hide"></li>
                                 <li><a href="https://github.com/VendinGoGo" target="_blank">VendinGoGo on GitHub</a></li>
                                 <li><a href="https://twitter.com/VendinGoGo" target="_blank">VendinGoGo on Twitter</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="index.php?LOGOUT=true">Sign Out</a></li>
                                 <li><a><label for="mode"><input type="checkbox" id="mode"> Dark Mode </label></a></li>
                             </ul>
                         </li>';
