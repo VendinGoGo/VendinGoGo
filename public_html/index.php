@@ -22,7 +22,7 @@ if (!isset($_SESSION['access_token'])) {
 
 if (isset($_GET['LOGOUT'])) {
     session_destroy();
-    header('Location: ../../index.php');
+    header('Location: index.php');
 }
 ?>
 <html style="height:100%">
@@ -32,15 +32,6 @@ if (isset($_GET['LOGOUT'])) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        <!--Setup Site for external links and social meadia-->
-        <meta property="og:url" content="https://vendingogo.com/">
-        <meta property="og:site_name" content="Vendingogo"/>
-        <meta property="og:description" content="One step closer to becoming and omnipresent being."/>
-        <meta property="og:image" content="http://vendingogo.com/img/FB_VGG_link_banner.png">
-	<meta property="og:image:secure_url" content="https://vendingogo.com/img/FB_VGG_link_banner.png" />
-	<meta property="og:image:type" content="image/png" />
-        <meta property="og:type" content="navigation"/>
-    
         <!--Load Style Sheets-->
         <link href="js/libs/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="style/index.css" rel="stylesheet">
@@ -63,6 +54,19 @@ if (isset($_GET['LOGOUT'])) {
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="ico/ms-icon-144x144.png">
         <meta name="theme-color" content="#21D466">        
+        
+	<!--Setup Site for external links and social meadia-->
+	<meta property="og:title" content="VendinGoGo" />
+        <meta property="og:site_name" content="VendinGoGo"/>
+        <meta property="og:url" content="https://vendingogo.com/">
+        <meta property="og:description" content="One step closer to becoming and omnipresent being."/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:image" content="https://vendingogo.com/img/FB_VGG_link_banner.png">
+	<meta property="og:image:type" content="image/png" />
+
+	<!--Facebook site sepecific tags-->
+	<meta property="fb:app_id" content="171375589923747" />
+    
 
     </head>
 
