@@ -33,10 +33,12 @@ if (isset($_GET['LOGOUT'])) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!--Setup Site for external links and social meadia-->
-        <meta property="og:url" content="http://vendingogo.com/">
+        <meta property="og:url" content="https://vendingogo.com/">
         <meta property="og:site_name" content="Vendingogo"/>
         <meta property="og:description" content="One step closer to becoming and omnipresent being."/>
-        <meta property="og:image" content="img/external_VGG_banner.png">
+        <meta property="og:image" content="http://vendingogo.com/img/FB_VGG_link_banner.png">
+	<meta property="og:image:secure_url" content="https://vendingogo.com/img/FB_VGG_link_banner.png" />
+	<meta property="og:image:type" content="image/png" />
         <meta property="og:type" content="navigation"/>
     
         <!--Load Style Sheets-->
