@@ -14,7 +14,7 @@ session_start();
 
 if (!isset($_SESSION['access_token'])) {
     $accountName = "Sign In";
-    $profilePic = "/VendinGoGo/public_html/img/blank-avatar.svg";
+    $profilePic = "/img/blank-avatar.svg";
 } else {
     $accountName = $_SESSION['access_token']['screen_name'];
     $profilePic = $_SESSION['tprofile_pic_url'];
