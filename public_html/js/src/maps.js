@@ -341,7 +341,7 @@ function SidebarViewModel(){
                 title: 'Click to zoom',
                 icon: {
                     "url": 'img/VGG-marker-selected.svg',
-                    "scaledSize": new google.maps.Size(40, 40)
+                    "size": new google.maps.Size(40, 40)
                 },
             });
 
@@ -487,7 +487,9 @@ function initMap() {
     // map.setMapTypeId("mapLight");
 
     // Create a marker cluster for preventing a plethura of icons in the view
-    markerCluster = new MarkerClusterer(map, []);
+    markerCluster = new MarkerClusterer(map, [], {
+        imagePath: 'img/cluster/m'
+    });
 
     displayVedingLocations();
 
@@ -599,7 +601,7 @@ function addLocationToMap(locData){
         title: 'Submitted On: ' + locData.createdOn,
         icon: {
             "url": 'img/VGG-marker.svg',
-            "scaledSize": new google.maps.Size(40, 40)
+            "size": new google.maps.Size(40, 40)
         },
         vendingId: locData.id
     });
